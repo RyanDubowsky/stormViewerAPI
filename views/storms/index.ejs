@@ -1,0 +1,70 @@
+
+
+    <style>
+    html,body{
+    	width:100%;
+    	height:100%;
+        margin:0;
+    }
+    h4{
+        margin:0;
+    }
+    #map{
+    	width:100%;
+    	height:100%;
+    }
+    .storm_event{
+        stroke:#f00;
+        fill:#0cf;
+
+    }
+    .storm_event:hover{
+        cursor:pointer;
+
+    }
+    #tooltip {
+        opacity: 1;
+        background: white;
+        padding: 5px;
+        position: absolute;
+        z-index: 10;
+        visibility: hidden;
+        pointer-events: none;
+    }
+    </style>
+
+  </head>
+  <body>
+    <div id="map">
+        <div id="sidebar">
+            <h1>Storm Events</h1>
+            <div id="controls">
+                <label>Event Type:</label>
+                <select id="select_event">
+                    <option value="All" selected>All</option>
+                    <option value="Hail">Hail</option>
+                    <option value="Thunderstorm Wind">Thunderstorm Wind</option>
+                    <option value="Flood">Flood</option>
+                    <option value="Flash Flood">Flash Flood</option>
+                    <option value="Lightning">Lightning</option>
+                    <option value="Heavy Rain">Heavy Rain</option>
+                    <option value="Tornado">Tornado</option>
+                </select>
+                <div style="float:bottom">
+                    <div id="yearChart"></div>
+                    <div id="yearDamageChart"></div>
+                    <div id="eventTypeChart"></div>
+                    <div id="regionChart"></div>
+                    <br>
+                    Mapping Data from <a href="http://www.ncdc.noaa.gov/stormevents/">http://www.ncdc.noaa.gov/stormevents/</a><br>
+                    Event Property Damage is represented by circle radius.<br>
+                    Data is currently incomplete, this is just a proof of concept.<br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="tooltip">
+    </div>
+    
+  </body>
+ 
