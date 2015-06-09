@@ -1,12 +1,12 @@
 
-function crossData(data){
+function crossData(data,startYear){
 
 
 	var width = 380,
 		height = 380,
 
-		startYear = 2000,
-		endYear = 2014,
+
+		endYear = 2015,
 
 		millionFormat = d3.format(".3s"),
 		thousands = d3.format(","),
@@ -14,17 +14,18 @@ function crossData(data){
 		stormFilter = crossfilter(data),
 
 		yearChart = dc.barChart("#yearChart"),
+		yearDamageChart = dc.barChart('#yearDamageChart'),
 		eventTypeChart = dc.barChart('#eventTypeChart'),
-		regionChart = dc.barChart('#regionChart'),
-		yearDamageChart = dc.barChart('#yearDamageChart');
-	
+		regionChart = dc.barChart('#regionChart');
 
-	var yearDimension = stormFilter.dimension(function(d){ return d.BEGIN_DATE_TIME.substr(-4) }),
+
+
+	var yearDimension = stormFilter.dimension(function(d){return d.YEAR }),
 		yearGroup = yearDimension.group().reduceCount(),
-		yearPropDamageGroup = yearDimension.group().reduceSum(function(d){ return d.DAMAGE_PROPERTY_NUM; }),
+		yearPropDamageGroup = yearDimension.group().reduceSum(function(d){ return d.DAMAGE_PROPERTY; }),
 		eventTypeDimension = stormFilter.dimension(function(d){ return d.EVENT_TYPE }),
 		eventTypeGroup = eventTypeDimension.group().reduceCount()
-		regionDimension = stormFilter.dimension(function(d){ return d.CZ_NAME_STR }),
+		regionDimension = stormFilter.dimension(function(d){ return d.CZ_NAME }),
 		regionGroup = regionDimension.group().reduceCount()
 
 	yearChart
@@ -35,7 +36,10 @@ function crossData(data){
 		.xAxisLabel("Year")
 		.yAxisLabel("Enrollment")
 		.dimension(yearDimension)
-		.group(yearGroup);
+		.group(yearGroup)
+		.xAxis()
+			.tickFormat(d3.format("d"))
+			.ticks(2015-startYear);
 
 	yearDamageChart
 		.width(width)
@@ -74,7 +78,9 @@ function crossData(data){
 		.yAxisLabel("Count")
 		.dimension(regionDimension)
 		.group(regionGroup)		
+
 	dc.renderAll();
 
-	d3.selectAll('.x text').attr('transform','rotate(65)').attr('dx','20');
+	d3.selectAll('.x text').attr('transform','rotate(70)').attr('dx','20');
+
 }

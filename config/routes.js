@@ -36,7 +36,7 @@ module.exports.routes = {
     view: 'homepage'
   },
   '/': 'StormsController.index',
-  '/storms/byState/:state':'StormsController.byState',
+  '/storms/byState':'StormsController.byState',
   '/storms/mapRoute/:state/:year':{
     controller: 'StormsController',
     action:'mapRoute',

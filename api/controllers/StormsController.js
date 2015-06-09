@@ -11,9 +11,8 @@ module.exports = {
 	},
 
 	byState:function(req,res){
-		var state = req.param('state');
-		Storms.query('select * from stormevents where "STATE" = \''+state+'\'',null,function(err,data){
-			res.json({'state' : data});
+		Storms.query('select "DAMAGE_PROPERTY" from stormevents where "DAMAGE_PROPERTY" IS NOT NULL AND "STATE" = \''+"NEW YORK"+'\' AND "YEAR" >= \''+"2005"+'\'order by "DAMAGE_PROPERTY" desc limit 5',null,function(err,data){
+			res.json(data);
 		})
 		
 	},
