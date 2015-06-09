@@ -17,17 +17,18 @@
     sidebar.show();
 
     // -- Data Processing
-
-    d3.json('./data/eventsTEST.json',function(err,data){
+    var mapData;
+    d3.json('http://localhost:1337/storms/mapRoute/NEW%20YORK/2014',function(err,dataFromServer){
         //console.log('data',data[0],data.length)
         //console.log(data);
         console.log("hello");
-        var locationEvents = data.filter(function(event){
+        console.log(dataFromServer.state.rows);
+        mapData = dataFromServer.state.rows
+        var locationEvents = mapData.filter(function(event){
             return event.BEGIN_LAT != " " && event.BEGIN_LON != " ";
         })
         drawMap(locationEvents);
-        crossData(data);
-
+        crossData(mapData);
     });// end d3.json
 
 //data/stormEventsFromZips/newStormEvents.json

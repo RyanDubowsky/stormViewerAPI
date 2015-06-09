@@ -60,34 +60,61 @@ function drawMap(data){
 
         if(type === 'All'){
         
-            stormLayer.externalUpdate( stormEvents );
+            //Remove old storm layer, add new one with full dataset
+            map.removeLayer(stormLayer);
+            stormLayer = new L.GeoJSON(stormEvents,options);
+            map.addLayer(stormLayer);
+
+            //redraw sidebar with original full dataset
+            crossData(locationEvents);
         
         }else{
             
             filteredEvents.features = stormEvents.features.filter(function(feat){
                 return feat.properties.EVENT_TYPE == type;
             });
-            console.log('test',type,filteredEvents.features.length)
-            stormLayer.externalUpdate( filteredEvents );
+
+            //Remove old layer, make a new one, add the new one
+            map.removeLayer(stormLayer);
+            stormLayer = new L.GeoJSON(filteredEvents,options);
+            map.addLayer(stormLayer);
+
+            //Filter events based on type, then redraw sidebar
+            sidebarEvents = locationEvents.filter(function(sideEvent){
+                return sideEvent.EVENT_TYPE == type;
+            });
+
+
+            crossData(sidebarEvents);
+
         }
         
 
     })
+
+
+
+
     
     var thousands = d3.format(",");
 
     var damageScale = d3.scale.sqrt()
         .domain([0,100000000])
         .range([6,30]);
+
+    var opaScale = d3.scale.sqrt()
+        .domain([3,30])
+        .range([.4, .20]);
     
     var radiusScale = function(d){
         if(d.properties.DAMAGE_PROPERTY_NUM > 0){
             return damageScale(d.properties.DAMAGE_PROPERTY_NUM)
         }
         else{
-            return 4
+            return 3
         }
     }
+
 
 
     var latLng = function(d){
@@ -115,9 +142,13 @@ function drawMap(data){
 
     var markerOptions = function(d){
         var curRadius = radiusScale(d);
-        var curOpacity = .3;
+        var curOpacity = opacityScale(d);
 
         return {radius:curRadius, fillOpacity:curOpacity}
+    }
+
+    var opacityScale = function(d){
+        return opaScale(radiusScale(d));
     }
 
 

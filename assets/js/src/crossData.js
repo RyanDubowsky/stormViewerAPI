@@ -19,7 +19,7 @@ function crossData(data){
 		yearDamageChart = dc.barChart('#yearDamageChart');
 	
 
-	var yearDimension = stormFilter.dimension(function(d){ return d.BEGIN_DATE.substr(-4) }),
+	var yearDimension = stormFilter.dimension(function(d){ return d.BEGIN_DATE_TIME.substr(-4) }),
 		yearGroup = yearDimension.group().reduceCount(),
 		yearPropDamageGroup = yearDimension.group().reduceSum(function(d){ return d.DAMAGE_PROPERTY_NUM; }),
 		eventTypeDimension = stormFilter.dimension(function(d){ return d.EVENT_TYPE }),
@@ -70,7 +70,7 @@ function crossData(data){
 		.colors(d3.scale.category20().range())
 		.xUnits(dc.units.ordinal)
 		.brushOn(false)
-		.xAxisLabel("Region ")
+		.xAxisLabel("Region")
 		.yAxisLabel("Count")
 		.dimension(regionDimension)
 		.group(regionGroup)		

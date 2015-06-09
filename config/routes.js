@@ -35,8 +35,15 @@ module.exports.routes = {
   '/sails': {
     view: 'homepage'
   },
-  '/': 'StormsController.index'
-
+  '/': 'StormsController.index',
+  '/storms/byState/:state':'StormsController.byState',
+  '/storms/mapRoute/:state/:year':{
+    controller: 'StormsController',
+    action:'mapRoute',
+    cors:{
+      origin:'*'
+    }
+  }
   
 
 
