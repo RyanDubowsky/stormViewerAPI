@@ -2,6 +2,9 @@ function drawMap(data,startYear){
     locationEvents = data;
     var stormEvents = {type:'FeatureCollection',features:[]};
     var filteredEvents = {type:'FeatureCollection',features:[]};
+
+    var comma = d3.format(",");
+
     stormEvents.features = locationEvents.map(function(stormevent){
 
         if(isNaN(+stormevent.BEGIN_LON) || isNaN(+stormevent.BEGIN_LAT)){
@@ -41,8 +44,8 @@ function drawMap(data,startYear){
 
     var property_damages = [];
     stormEvents.features.forEach(function(se){
-        if(property_damages.indexOf(se.properties.DAMAGE_PROPERTY_NUM) < 0 ){
-            property_damages.push(+se.properties.DAMAGE_PROPERTY_NUM);
+        if(property_damages.indexOf(se.properties.DAMAGE_PROPERTY) < 0 ){
+            property_damages.push(+se.properties.DAMAGE_PROPERTY);
         }
     });
 
@@ -84,13 +87,18 @@ function drawMap(data,startYear){
             });
 
 
-            crossData(sidebarEvents);
+            crossData(sidebarEvents,startYear);
 
         }
         
 
     })
 
+   
+    $('#select_year').on('change',function(d,e){
+
+            map.removeLayer(stormLayer);
+    })
 
 
 
@@ -101,7 +109,7 @@ function drawMap(data,startYear){
 
     var comma = d3.format(",");
 
-    var damageScale = d3.scale.sqrt()
+    var damageRadiusScale = d3.scale.sqrt()
         .domain([0,100000000])
         .range([6,30]);
 
@@ -111,52 +119,14 @@ function drawMap(data,startYear){
     
     var radiusScale = function(d){
         //console.log(d.properties.DAMAGE_PROPERTY.substr(0,d.properties.DAMAGE_PROPERTY.length-1));
-        if(d.properties.DAMAGE_PROPERTY.substr(0,d.properties.DAMAGE_PROPERTY.length-1) > 0){
-            return damageScale(damagePopScale(d.properties.DAMAGE_PROPERTY));
+        if(d.properties.DAMAGE_PROPERTY > 0){
+            return damageRadiusScale(d.properties.DAMAGE_PROPERTY);
         }
         else{
             return 3
         }
     }
 
-
-    var damagePopScale = function(damage){
-        var realDamage;
-
-        if(damage.substr(-1) == 'B'){
-            //Billions Format
-            //console.log(damage);
-            realDamage = billions(damage.substr(0,damage.length-1));
-            realDamage = realDamage.replace(".","");
-            //console.log(realDamage);
-            return realDamage;
-
-        }
-        else if(damage.substr(-1) == 'M'){
-            //Millions Format
-            //console.log(damage);
-            realDamage = millions(damage.substr(0,damage.length-1));
-            realDamage = realDamage.replace(".","");
-            //console.log(realDamage);
-            return realDamage;
-
-        }
-        else if(damage.substr(-1) == 'K'){
-            //Thousands Format
-            //console.log(damage);
-            realDamage = thousands(damage.substr(0,damage.length-1));
-            realDamage = realDamage.replace(".","");
-            //console.log(realDamage);
-            return realDamage;
-
-        }
-
-        else{
-            //Should not reach this
-
-        }
-
-    }
 
 
 
@@ -171,7 +141,7 @@ function drawMap(data,startYear){
 
         var content = '<h4>'+d.properties.EVENT_TYPE+'</h4>';
         content += '<table class="table">';
-        content += '<tr><td>Property Damage</td><td>'+d.properties.DAMAGE_PROPERTY+'</td></tr>';
+        content += '<tr><td>Property Damage</td><td>'+comma(d.properties.DAMAGE_PROPERTY)+'</td></tr>';
         content += '<tr><td>Crops Damage</td><td>'+d.properties.DAMAGE_CROPS+'</td></tr>';
         content += '<tr><td>CZ Name</td><td>'+d.properties.CZ_NAME+'</td></tr>';
         content += '<tr><td>Begin Date</td><td>'+d.properties.BEGIN_DATE_TIME.substr(0,9)+'</td></tr>';

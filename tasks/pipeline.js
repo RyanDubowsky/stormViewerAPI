@@ -35,9 +35,11 @@ var jsFilesToInject = [
   'bower_components/leaflet-sidebar/src/L.Control.Sidebar.js',
   'bower_components/crossfilter/crossfilter.min.js',
   'bower_components/dcjs/dc.min.js',
-  'js/src/index.js',
   'js/src/drawMap.js',
-  'js/src/crossData.js'
+  'js/src/crossData.js',
+  'js/src/queryDb.js',
+  'js/src/index.js',
+
 
 
   // All of the rest of your client-side js files
