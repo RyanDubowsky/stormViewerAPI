@@ -2,10 +2,8 @@ function queryDb(params){
 
 	var mapData;
 	var locationEvents;
-	var state = params.state;
-	var beginYear = params.year;
 
-    var url = "http://localhost:1337/storms/mapRoute/"+state+"/"+beginYear;
+    var url = "http://localhost:1337/storms/mapRoute/"+params.state+"/"+params.year+"/"+params.exact;
     console.log("URL in query function:",url);
 
 
@@ -29,8 +27,8 @@ function queryDb(params){
         })
 
 
-        drawMap(locationEvents,beginYear);
-	    crossData(locationEvents,beginYear);
+        drawMap(locationEvents,params.year);
+	    crossData(locationEvents,params.year);
 
 
 

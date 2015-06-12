@@ -36,8 +36,16 @@ module.exports.routes = {
     view: 'homepage'
   },
   '/': 'StormsController.index',
-  '/storms/byState':'StormsController.byState',
-  '/storms/mapRoute/:state/:year':{
+
+  '/storms/allEvents/':{
+    controller: 'StormsController',
+    action:'allEvents',
+    cors:{
+      origin:'*'
+    }
+  },
+
+  '/storms/mapRoute/:state/:year/:exact':{
     controller: 'StormsController',
     action:'mapRoute',
     cors:{

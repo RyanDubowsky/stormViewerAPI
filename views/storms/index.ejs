@@ -39,6 +39,9 @@
         <div id="sidebar">
             <h1>Storm Events</h1>
             <div id="controls">
+                <div id="showAPI" style="float:right">
+                    <button type="button">Toggle API Sidebar</button>
+                </div>
                 <label>Event Type:</label>
                 <select id="select_event">
                     <option value="All" selected>All</option>
@@ -62,14 +65,16 @@
                 </div>
             </div>
         </div>
+        
         <div id="sidebarAPI">
             <h1> API Filters </h1>
             <div id ="controls">
                 <Label>Year Select</label>
+                <br>
                 <select id="select_year">
                     <option value="2014">2014</option>
                     <option value="2013">2013</option>
-                    <option value="2012">2012</option>
+                    <option value="2012" selected = 'true'>2012</option>
                     <option value="2011">2011</option>
                     <option value="2010">2010</option>
                     <option value="2009">2009</option>
@@ -133,6 +138,77 @@
                     <option value="1951">1951</option>
                     <option value="1950">1950</option>
                 </select>
+                <br>
+                <br>
+
+                <Label>State Select</label>
+                <br>
+                <select id="select_state">
+                    <option value="ALABAMA">ALABAMA</option>
+                    <option value="ALASKA">ALASKA</option>
+                    <option value="ARIZONA">ARIZONA</option>
+                    <option value="ARKANSAS">ARKANSAS</option>
+                    <option value="CALIFORNIA">CALIFORNIA</option>
+                    <option value="COLORADO">COLORADO</option>
+                    <option value="CONNECTICUT">CONNECTICUT</option>
+                    <option value="DELAWARE">DELAWARE</option>
+                    <option value="DISTRICT OF COLUMBIA">DISTRICT OF COLUMBIA</option>
+                    <option value="FLORIDA">FLORIDA</option>
+                    <option value="GEORGIA">GEORGIA</option>
+                    <option value="HAWAII">HAWAII</option>
+                    <option value="IDAHO">IDAHO</option>
+                    <option value="ILLINOIS">ILLINOIS</option>
+                    <option value="INDIANA">INDIANA</option>
+                    <option value="IOWA">IOWA</option>
+                    <option value="KANSAS">KANSAS</option>
+                    <option value="KENTUCKY">KENTUCKY</option>
+                    <option value="LOUISIANA">LOUISIANA</option>
+                    <option value="MAINE">MAINE</option>
+                    <option value="MARYLAND">MARYLAND</option>
+                    <option value="MASSACHUSETTS">MASSACHUSETTS</option>
+                    <option value="MICHIGAN">MICHIGAN</option>
+                    <option value="MINNESOTA">MINNESOTA</option>
+                    <option value="MISSISSIPPI">MISSISSIPPI</option>
+                    <option value="MISSOURI">MISSOURI</option>
+                    <option value="MONTANA">MONTANA</option>
+                    <option value="NEBRASKA">NEBRASKA</option>
+                    <option value="NEVADA">NEVADA</option>
+                    <option value="NEW HAMPSHIRE">NEW HAMPSHIRE</option>
+                    <option value="NEW JERSEY">NEW JERSEY</option>
+                    <option value="NEW MEXICO">NEW MEXICO</option>
+                    <option value="NEW YORK" selected = 'true'>NEW YORK</option>
+                    <option value="NORTH CAROLINA">NORTH CAROLINA</option>
+                    <option value="NORTH DAKOTA">NORTH DAKOTA</option>
+                    <option value="OHIO">OHIO</option>
+                    <option value="OKLAHOMA">OKLAHOMA</option>
+                    <option value="OREGON">OREGON</option>
+                    <option value="PENNSYLVANIA">PENNSYLVANIA</option>
+                    <option value="RHODE ISLAND">RHODE ISLAND</option>
+                    <option value="SOUTH CAROLINA">SOUTH CAROLINA</option>
+                    <option value="SOUTH DAKOTA">SOUTH DAKOTA</option>
+                    <option value="TENNESSEE">TENNESSEE</option>
+                    <option value="TEXAS">TEXAS</option>
+                    <option value="UTAH">UTAH</option>
+                    <option value="VERMONT">VERMONT</option>
+                    <option value="VIRGINIA">VIRGINIA</option>
+                    <option value="WASHINGTON">WASHINGTON</option>
+                    <option value="WEST VIRGINIA">WEST VIRGINIA</option>
+                    <option value="WISCONSIN">WISCONSIN</option>
+                    <option value="WYOMING">WYOMING</option>
+                </select>
+
+                <br>
+                <div id="exactYear">
+                    <input type="radio" name="exactYear" value="exact" />Only the selected year
+                    <br>
+                    <input type="radio" name="exactYear" value="younger" checked = 'checked'/>The selected year and younger
+                    <br>
+                    <input type="radio" name="exactYear" value="older" />The selected year and older
+                </div>
+                <br>
+                <div id="executeQuery" float:"bottom">
+                    <button type="button">Execute Query</button>
+                </div>
             </div>
         </div>
     </div>

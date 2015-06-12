@@ -95,9 +95,10 @@ function drawMap(data,startYear){
     })
 
    
-    $('#select_year').on('change',function(d,e){
+    $('#executeQuery').on('click',function(d,e){
 
             map.removeLayer(stormLayer);
+            //map.panTo();
     })
 
 
@@ -176,7 +177,6 @@ function drawMap(data,startYear){
             'r': radiusScale
         },
         pointToLayer: function(d,latLng) {
-
 
             var curCircle = new L.CircleMarker(latLng, markerOptions(d))
                                  .bindPopup(popupContent(d),popupOptions(d));

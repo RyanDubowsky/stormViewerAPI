@@ -9,20 +9,48 @@ module.exports = {
 	index: function(req,res){
 		res.view();
 	},
+	allEvents:function(req,res){
 
-	byState:function(req,res){
-		Storms.query('select "DAMAGE_PROPERTY" from stormevents where "DAMAGE_PROPERTY" IS NOT NULL AND "STATE" = \''+"NEW YORK"+'\' AND "YEAR" >= \''+"2005"+'\'order by "DAMAGE_PROPERTY" desc limit 5',null,function(err,data){
-			res.json(data);
-		})
-		
+
+
+			Storms.query(
+			'select "YEAR","EVENT_TYPE",count(*) from stormevents group by "YEAR","EVENT_TYPE" ORDER BY "YEAR" DESC',
+			null,function(err,data){
+				res.json({'state' : data});
+			})
+
+
+
 	},
 
 	mapRoute:function(req,res){
 		var state = req.param('state');
 		var year = req.param('year');
-		Storms.query('select * from stormevents where "STATE" = \''+state+'\' AND "YEAR" >= \''+year+'\'',null,function(err,data){
-			res.json({'state' : data});
-		})
+		var exact = req.param('exact');
+
+
+		if(exact == "exact"){
+			Storms.query('select * from stormevents where "STATE" = \''+state+'\' AND "YEAR" = \''+year+'\'',
+						  null,function(err,data){
+						  	res.json({'state' : data});
+						  })
+
+		}
+		else if(exact =="younger"){
+			Storms.query('select * from stormevents where "STATE" = \''+state+'\' AND "YEAR" >= \''+year+'\'',
+						  null,function(err,data){
+				res.json({'state' : data});
+			})
+
+		}
+		else if(exact == "older"){
+			Storms.query('select * from stormevents where "STATE" = \''+state+'\' AND "YEAR" <= \''+year+'\'',
+						  null,function(err,data){
+				res.json({'state' : data});
+			})
+		}
+
+
 	}
 
 };

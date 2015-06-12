@@ -20,7 +20,7 @@
     map.addControl(sidebar);
     map.addControl(sidebarAPI);
     sidebar.show();
-    sidebarAPI.show();
+
 
 
     var thousandsFormat = d3.format(".3f");
@@ -60,69 +60,45 @@
             //Should not reach this
         }
     }
- $('#select_year').on('change',function(d,e){
-        var yearAPI = $(this).val();
-        var state ="NEW YORK";
+    $('#executeQuery').on('click',function(d,e){
 
-        var params = {state:state, year: yearAPI}
+        var state = $("#select_state").val();
 
+        var yearAPI = $("#select_year").val();
 
-        var mapData;
-        var state = params.state;
-        var beginYear = params.year;
+        var exactYear = $("#exactYear input[type='radio']:checked");
+        if (exactYear.length > 0) {
+            exact = exactYear.val();
+        }
+        else{
+            exact = "exact";
+        }
 
-        var url = "http://localhost:1337/storms/mapRoute/"+state+"/"+beginYear;
-        console.log("URL in API Filter:",url);
+        d3.json("../data/stateLatLong.json",function(err,latLonObj){
+            console.log(yearAPI,exact);
+            var params = {state:state, year: yearAPI,exact:exact}
+            var url = "http://localhost:1337/storms/mapRoute/"+params.state+"/"+params.year+"/"+params.exact;
+            console.log(latLonObj);
 
-
-
-
+            latLonObj.forEach(function(stateObj){
+                if (stateObj.key == state){
+                    console.log(stateObj);
+                    map.panTo(L.latLng(stateObj.latitude,stateObj.longitude));
+                }
+            })
         queryDb(params);
-
+        })
 
     })
 
-    // -- Data Processing
-
-    var params = {year:"2012",state:"NEW YORK"};
-
-
-
-    // var url = "http://localhost:1337/storms/mapRoute/"+params.state+"/"+params.year;
-    // d3.json(url,function(err,dataFromServer){
-    //     mapData = dataFromServer.state.rows;
-    //     var locationEvents = mapData.filter(function(event){
-    //         return event.BEGIN_LAT != null && event.BEGIN_LON != null && event.DAMAGE_PROPERTY != null && event.DAMAGE_CROPS != null && event.YEAR != null;
-    //     })
-
-    //     //Change damage numbers to proper form before sending the data along
-    //     locationEvents.forEach(function(event){
-    //         event.DAMAGE_PROPERTY = damagePopScale( event.DAMAGE_PROPERTY);
-    //         event.DAMAGE_CROPS = damagePopScale(event.DAMAGE_CROPS);
-    //     })
-
-    //     drawMap(locationEvents,params.year);
-    //     crossData(locationEvents,params.year);
+    $('#showAPI').on('click',function(d,e){
+        sidebarAPI.toggle();
+    })
 
 
-    // });// end d3.json
 
-    // function visualize(data){
-    //     drawMap(data,params.year);
-    //     crossData(data,params.year);
-    // }
 
-    // function getEvents(queryParam,visualFunction){
-    //     var locationEvents = queryDb(queryParam);
-    //     console.log("Events after query function:",locationEvents);
-    //     visualFunction(locationEvents);
-    // }
-
+    // Initial Load and Default parameters
+    var params = {year:"2012",state:"NEW YORK",exact:"younger"};
     queryDb(params);
-
-    //console.log(queryDb(params));
-
-
-//    getEvents(params,visualize);
-
 
