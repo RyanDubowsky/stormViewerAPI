@@ -26,12 +26,9 @@ function queryDb(params){
             event.DAMAGE_CROPS = damagePopScale(event.DAMAGE_CROPS);
         })
 
-
+        
         drawMap(locationEvents,params.year);
 	    crossData(locationEvents,params.year);
-
-
-
     });// end d3.json
 
 

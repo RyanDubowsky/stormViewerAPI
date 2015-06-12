@@ -101,4 +101,7 @@
     // Initial Load and Default parameters
     var params = {year:"2012",state:"NEW YORK",exact:"younger"};
     queryDb(params);
+    allEventsQuery();
+
+
 
