@@ -19,7 +19,7 @@
 
     map.addControl(sidebar);
     map.addControl(sidebarAPI);
-    sidebar.show();
+    //sidebar.show();
 
 
 

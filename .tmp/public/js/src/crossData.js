@@ -1,6 +1,6 @@
 
 function crossData(data,beginYear){
-
+	console.log("crossdata",data);
 
 	var width = 380,
 		height = 380,

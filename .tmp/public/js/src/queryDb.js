@@ -28,7 +28,7 @@ function queryDb(params){
 
         
         drawMap(locationEvents,params.year);
-	    crossData(locationEvents,params.year);
+	    //crossData(locationEvents,params.year);
     });// end d3.json
 
 
