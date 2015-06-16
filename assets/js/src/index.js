@@ -9,17 +9,6 @@
       zoomControl: true
     });
 
-    var sidebar = L.control.sidebar('sidebar', {
-     position: 'left'
-    });
-
-    var sidebarAPI = L.control.sidebar('sidebarAPI', {
-     position: 'right'
-    });
-
-    map.addControl(sidebar);
-    map.addControl(sidebarAPI);
-    //sidebar.show();
 
 
 
@@ -60,48 +49,18 @@
             //Should not reach this
         }
     }
-    $('#executeQuery').on('click',function(d,e){
 
-        var state = $("#select_state").val();
 
-        var yearAPI = $("#select_year").val();
-
-        var exactYear = $("#exactYear input[type='radio']:checked");
-        if (exactYear.length > 0) {
-            exact = exactYear.val();
-        }
-        else{
-            exact = "exact";
-        }
-
-        d3.json("../data/stateLatLong.json",function(err,latLonObj){
-            console.log(yearAPI,exact);
-            var params = {state:state, year: yearAPI,exact:exact}
-            var url = "http://localhost:1337/storms/mapRoute/"+params.state+"/"+params.year+"/"+params.exact;
-            console.log(latLonObj);
-
-            latLonObj.forEach(function(stateObj){
-                if (stateObj.key == state){
-                    console.log(stateObj);
-                    map.panTo(L.latLng(stateObj.latitude,stateObj.longitude));
-                }
-            })
-        queryDb(params);
-        })
-
+    $('#bar_select').on('click',function(d,e){
+        var type = $(this).val();
+        allEventsQuery(type);
     })
-
-    $('#showAPI').on('click',function(d,e){
-        sidebarAPI.toggle();
-    })
-
 
 
 
     // Initial Load and Default parameters
-    var params = {year:"2012",state:"NEW YORK",exact:"younger"};
+    allEventsQuery("All");
+
+    var params = {year:"2011",state:"NEW YORK",exact:"younger"};
     queryDb(params);
-    allEventsQuery();
-
-
 

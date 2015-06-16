@@ -54,7 +54,7 @@ function drawMap(data,startYear){
 
 
        
-    $('#select_event').on('change',function(d,e){
+    $('#bar_select').on('change',function(d,e){
         
         var type = $(this).val();
 
@@ -67,8 +67,6 @@ function drawMap(data,startYear){
             stormLayer = new L.GeoJSON(stormEvents,options);
             map.addLayer(stormLayer);
 
-            //redraw sidebar with original full dataset
-            crossData(locationEvents,startYear);
         
         }else{
             
@@ -86,21 +84,21 @@ function drawMap(data,startYear){
                 return sideEvent.EVENT_TYPE == type;
             });
 
-
-            crossData(sidebarEvents,startYear);
-
         }
         
 
     })
 
-   
-    $('#executeQuery').on('click',function(d,e){
-
+    allEventChart.on("filtered",function(chart,filter){
+        dc.events.trigger(function(){
             map.removeLayer(stormLayer);
-            //map.panTo();
-    })
+            console.log(Math.floor(filter[0]));
+            //console.log("filter",filter[0]);
+            var params = {year:Math.round(filter[0]),state:"NEW YORK",exact:"younger"};
+            queryDb(params);
 
+        },500)
+    })
 
 
     

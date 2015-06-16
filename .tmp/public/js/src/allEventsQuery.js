@@ -1,11 +1,10 @@
-function allEventsQuery(){
+function allEventsQuery(type){
 
 	var mapData;
 	var locationEvents;
 
     var url = "http://localhost:1337/storms/allEvents";
     console.log("URL in all events query function:",url);
-
 
 
 
@@ -26,22 +25,45 @@ function allEventsQuery(){
         var curYear = 0;
         //console.log(locationEvents[0].count);
 
-        for(var i=1950; i<2015; i++){
-            locationEvents.forEach(function(entry){
+        if(type=="All"){
+            for(var i=1950; i<2015; i++){
+                locationEvents.forEach(function(entry){
 
-                if(entry.YEAR == i){
-                    //console.log(entry.count)
-                    curYear = curYear + +entry.count;
-                }
+                    if(entry.YEAR == i){
+                        //console.log(entry.count)
+                        curYear = curYear + +entry.count;
+                    }
 
+                });
+                talliedEvents.push({year:i,count:curYear});
+                //console.log(curYear);
+            }
+
+
+            console.log("talliedEvents",talliedEvents);
+            allEvents(talliedEvents);
+        }else{
+            var barEvents;
+            barEvents = locationEvents.filter(function(barEvent){
+                return barEvent.EVENT_TYPE == type;
             });
-            talliedEvents.push({year:i,count:curYear});
-            //console.log(curYear);
+
+            barEvents.forEach(function(bEvent){
+                talliedEvents.push({year:bEvent.YEAR,count:bEvent.count});
+
+
+            })
+
+
+
+
+            console.log("barEvents",talliedEvents)
+            allEvents(talliedEvents);
+
+
+
         }
 
-
-        //console.log(talliedEvents);
-        allEvents(talliedEvents);
     });// end d3.json
 
 
