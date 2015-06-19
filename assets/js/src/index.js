@@ -6,7 +6,7 @@
       center: [42.76314586689494,-74.7509765625],
       zoom: 7,
       layers: [mapquestOSM],
-      zoomControl: true
+      zoomControl: false
     });
 
 
@@ -17,6 +17,14 @@
         billionsFormat = d3.format(".9f");
         commaFormat = d3.format(",");
         damageAxisFormat = d3.format("$.3s")
+
+var sidebar = L.control.sidebar('sidebar', {
+     position: 'left',
+     closeButton:false
+    });
+
+    map.addControl(sidebar);
+    sidebar.show();
 
 
 
@@ -32,12 +40,6 @@
     
     var mapParams = {state:"NEW YORK",eType:"All",startYear:"2012",endYear:"2014"};
 var chartParams = {state:"All",eType:"All"};
-
-//Uses another d3.json call to force syncronicity
-    // d3.json(chartQuery(chartParams),function(err,chartData){
-    //     console.log("index log of chartData",chartData);
-    //     //Call to chartDraw
-    // })
 
 
 
