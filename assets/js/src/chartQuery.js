@@ -47,11 +47,11 @@ function chartQuery(params,callback){
 
 
     if(params.eType == "All"){
-    	console.log("query log of tallied chart events",talliedEvents);
+    	//console.log("query log of tallied chart events",talliedEvents);
     	callback(talliedEvents);
     }
     else{
-    	console.log("query log of one type chart events ",finalBarEvents);
+    	//console.log("query log of one type chart events ",finalBarEvents);
     	callback(finalBarEvents);
     }
 

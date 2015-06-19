@@ -45,8 +45,8 @@ function mapQuery(params,callback){
             event.DAMAGE_PROPERTY = damagePopScale( event.DAMAGE_PROPERTY);
             event.DAMAGE_CROPS = damagePopScale(event.DAMAGE_CROPS);
         }) 
-          
-        console.log("query log of map data",mapData);
+
+        //console.log("query log of map data",mapData);
    		callback(mapData);
     });// end d3.json
 

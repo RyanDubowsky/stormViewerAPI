@@ -48,8 +48,8 @@ function syncChart(callback){
 }
 
 function syncChartDraw(params){
-    //CONSOLE LOG DATA
-    console.log("index log of chart data",params);
+    //console.log("index log of chart data",params);
+    chartDraw(params);
 }
 
 function syncMap(callback){
@@ -59,7 +59,8 @@ function syncMap(callback){
 }
 
 function syncMapDraw(params){
-    console.log("index log of map data",params);
+    //console.log("index log of map data",params);
+    mapDraw(params);
 }
 
 syncMap(syncMapDraw);

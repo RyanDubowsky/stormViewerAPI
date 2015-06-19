@@ -89,16 +89,16 @@ function mapDraw(data){
 
     })
 
-    allEventChart.on("filtered",function(chart,filter){
-        dc.events.trigger(function(){
-            map.removeLayer(stormLayer);
-            console.log(Math.floor(filter[0]));
-            //console.log("filter",filter[0]);
-            var params = {year:Math.round(filter[0]),state:"NEW YORK",exact:"younger"};
-            queryDb(params);
+    // allEventChart.on("filtered",function(chart,filter){
+    //     dc.events.trigger(function(){
+    //         map.removeLayer(stormLayer);
+    //         console.log(Math.floor(filter[0]));
+    //         //console.log("filter",filter[0]);
+    //         var params = {year:Math.round(filter[0]),state:"NEW YORK",exact:"younger"};
+    //         queryDb(params);
 
-        },500)
-    })
+    //     },500)
+    // })
 
 
     
