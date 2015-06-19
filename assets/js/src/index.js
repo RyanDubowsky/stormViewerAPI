@@ -19,36 +19,6 @@
         damageAxisFormat = d3.format("$.3s")
 
 
-    var damagePopScale = function(damage){
-        var realDamage;
-
-        if(damage.substr(0,4) == "0.00"){
-            return 0;
-        }
-        else if(damage.substr(-1) == 'B'){
-            //Billions Format
-            realDamage = billionsFormat(damage.substr(0,damage.length-1));
-            realDamage = realDamage.replace(".","");
-            return realDamage;
-        }
-        else if(damage.substr(-1) == 'M'){
-            //Millions Format
-            realDamage = millionsFormat(damage.substr(0,damage.length-1));
-            realDamage = realDamage.replace(".","");
-            return realDamage;
-        }
-        else if(damage.substr(-1) == 'K'){
-            //Thousands Format
-            //console.log(damage);
-            realDamage = thousandsFormat(damage.substr(0,damage.length-1));
-            realDamage = realDamage.replace(".","");
-            //console.log(realDamage);
-            return realDamage;
-        }
-        else{   
-            //Should not reach this
-        }
-    }
 
 
     $('#bar_select').on('click',function(d,e){
@@ -59,8 +29,45 @@
 
 
     // Initial Load and Default parameters
-    allEventsQuery("All");
+    
+    var mapParams = {state:"NEW YORK",eType:"All",startYear:"2012",endYear:"2014"};
+var chartParams = {state:"All",eType:"All"};
 
-    var params = {year:"2011",state:"NEW YORK",exact:"younger"};
-    queryDb(params);
+//Uses another d3.json call to force syncronicity
+    // d3.json(chartQuery(chartParams),function(err,chartData){
+    //     console.log("index log of chartData",chartData);
+    //     //Call to chartDraw
+    // })
+
+
+
+
+function syncChart(callback){
+    //GET THE DATA
+    chartQuery(chartParams,callback);
+}
+
+function syncChartDraw(params){
+    //CONSOLE LOG DATA
+    console.log("index log of chart data",params);
+}
+
+function syncMap(callback){
+
+    mapQuery(mapParams,callback);
+
+}
+
+function syncMapDraw(params){
+    console.log("index log of map data",params);
+}
+
+syncMap(syncMapDraw);
+syncChart(syncChartDraw);  // foo will run, then calls bar after foo is finished.
+    // d3.json(mapQuery(mapParams),function(err,mapData){
+    //     console.log("index log of mapData",mapData);
+    //     //Call to mapDraw
+    // })
+
+
 

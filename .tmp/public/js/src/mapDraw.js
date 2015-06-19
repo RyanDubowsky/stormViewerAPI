@@ -1,4 +1,4 @@
-function drawMap(data,startYear){
+function mapDraw(data){
     locationEvents = data;
     var stormEvents = {type:'FeatureCollection',features:[]};
     var filteredEvents = {type:'FeatureCollection',features:[]};
