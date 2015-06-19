@@ -37,17 +37,16 @@ module.exports.routes = {
   },
   '/': 'StormsController.index',
 
-  '/storms/allEvents/':{
+  '/storms/chartEvents/:state/:type':{
     controller: 'StormsController',
-    action:'allEvents',
+    action:'chartEvents',
     cors:{
       origin:'*'
     }
   },
-
-  '/storms/mapRoute/:state/:year/:exact':{
+  '/storms/mapEvents/:state/:type/:startYear/:endYear':{
     controller: 'StormsController',
-    action:'mapRoute',
+    action:'mapEvents',
     cors:{
       origin:'*'
     }
