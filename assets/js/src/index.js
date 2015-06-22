@@ -10,7 +10,6 @@
     });
 
     // Initial Load and Default parameters
-    
     var mapParams = {state:"NEW YORK",eType:"All",startYear:"2012",endYear:"2014"};
     var chartParams = {state:"All",eType:"All"};
 
@@ -35,14 +34,60 @@ var sidebar = L.control.sidebar('sidebar', {
     $('#select_event').on('click',function(d,e){
         var type = $(this).val();
 
-        mapParams = {state:"NEW YORK",eType:type,startYear:"2012",endYear:"2014"};
-        chartParams = {state:"All",eType:type};
+        if($('#select_state').val() == 'All'){
+           mapParams.eType = type;
+           //mapParams.startYear =
+           //mapParams.endYear = 
+        }
+        else{
+           mapParams.state = $('#select_state').val();
+           mapParams.eType = type;
+           //mapParams.startYear =
+           //mapParams.endYear = 
+        }
 
+        chartParams.state = $('#select_state').val();
+        chartParams.eType = type;
+        console.log(chartParams);
+        //Redraw chart and map
         syncMap(syncMapDraw);
         syncChart(syncChartDraw);
     })
 
 
+    $('#select_state').on('click',function(d,e){
+        state  = $(this).val();
+
+        if($('#select_state').val() == 'All'){
+           mapParams.eType = $('#select_event').val();
+           //mapParams.startYear =
+           //mapParams.endYear = 
+        }
+        else{
+           mapParams.state = state;
+           mapParams.eType = $('#select_event').val();
+           //mapParams.startYear =
+           //mapParams.endYear = 
+        }
+
+        chartParams.state = state;
+        chartParams.eType = $('#select_event').val();
+
+
+        d3.json("../data/stateLatLong.json",function(err,latLonObj){
+
+            latLonObj.forEach(function(stateObj){
+               if (stateObj.key == state){
+                    console.log(stateObj);
+                    map.panTo(L.latLng(stateObj.latitude,stateObj.longitude));
+               }
+            })
+
+            //Redraw chart and map
+            syncMap(syncMapDraw);
+            syncChart(syncChartDraw);
+        })
+    })
 
 
 

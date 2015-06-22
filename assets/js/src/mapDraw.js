@@ -194,6 +194,11 @@ function mapDraw(data){
                 map.removeLayer(stormLayer);
         })
 
+        $('#select_state').on('click',function(d,e){
+                map.removeLayer(stormLayer);
+        })
+
+
     var stormLayer = new L.GeoJSON(stormEvents,options)
     map.addLayer(stormLayer);
 }
