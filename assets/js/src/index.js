@@ -1,3 +1,4 @@
+
     /* Basemap Layers */
     var mapquestOSM = L.tileLayer("http://{s}.tiles.mapbox.com/v3/am3081.h0po4e8k/{z}/{x}/{y}.png");
     
@@ -36,19 +37,22 @@ var sidebar = L.control.sidebar('sidebar', {
 
         if($('#select_state').val() == 'All'){
            mapParams.eType = type;
-           //mapParams.startYear =
-           //mapParams.endYear = 
         }
         else{
            mapParams.state = $('#select_state').val();
            mapParams.eType = type;
-           //mapParams.startYear =
-           //mapParams.endYear = 
         }
+
+        if(brushFilter != null){
+           mapParams.startYear = Math.round(brushFilter[0]);
+           mapParams.endYear = Math.round(brushFilter[1]);
+        }
+
+
 
         chartParams.state = $('#select_state').val();
         chartParams.eType = type;
-        console.log(chartParams);
+
         //Redraw chart and map
         syncMap(syncMapDraw);
         syncChart(syncChartDraw);
@@ -60,14 +64,16 @@ var sidebar = L.control.sidebar('sidebar', {
 
         if($('#select_state').val() == 'All'){
            mapParams.eType = $('#select_event').val();
-           //mapParams.startYear =
-           //mapParams.endYear = 
+
         }
         else{
            mapParams.state = state;
            mapParams.eType = $('#select_event').val();
-           //mapParams.startYear =
-           //mapParams.endYear = 
+        }
+
+        if(brushFilter != null){
+            mapParams.startYear = Math.round(brushFilter[0]);
+            mapParams.endYear = Math.round(brushFilter[1]);
         }
 
         chartParams.state = state;
@@ -89,7 +95,31 @@ var sidebar = L.control.sidebar('sidebar', {
         })
     })
 
+    $('#allEvents').on('mouseup',function(d,e){
 
+        console.log("global filter var in index",brushFilter);
+        if($('#select_state').val() == 'All'){
+           mapParams.eType = $('#select_event').val();
+           mapParams.startYear = Math.round(brushFilter[0]);
+           mapParams.endYear = Math.round(brushFilter[1]);
+        }
+        else{
+           mapParams.state = $('#select_state').val();
+           mapParams.eType = $('#select_event').val();
+           mapParams.startYear = Math.round(brushFilter[0]);
+           mapParams.endYear = Math.round(brushFilter[1]);
+        }
+
+
+        chartParams.state = $('#select_state').val();
+        chartParams.eType = $('#select_event').val();
+
+        console.log("chartParams in index", mapParams);
+        console.log("mapParams in index", chartParams);  
+
+
+        setTimeout(syncMap(syncMapDraw),250);
+    })
 
 
 

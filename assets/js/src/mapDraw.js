@@ -49,57 +49,6 @@ function mapDraw(data){
         }
     });
 
-    
-    var event_select = d3.select('#select_event')
-
-
-       
-    $('#bar_select').on('change',function(d,e){
-        
-        var type = $(this).val();
-
-        console.log(type);
-
-        if(type === 'All'){
-        
-            //Remove old storm layer, add new one with full dataset
-            map.removeLayer(stormLayer);
-            stormLayer = new L.GeoJSON(stormEvents,options);
-            map.addLayer(stormLayer);
-
-        
-        }else{
-            
-            filteredEvents.features = stormEvents.features.filter(function(feat){
-                return feat.properties.EVENT_TYPE == type;
-            });
-
-            //Remove old layer, make a new one, add the new one
-            map.removeLayer(stormLayer);
-            stormLayer = new L.GeoJSON(filteredEvents,options);
-            map.addLayer(stormLayer);
-
-            //Filter events based on type, then redraw sidebar
-            sidebarEvents = locationEvents.filter(function(sideEvent){
-                return sideEvent.EVENT_TYPE == type;
-            });
-
-        }
-        
-
-    })
-
-    // allEventChart.on("filtered",function(chart,filter){
-    //     dc.events.trigger(function(){
-    //         map.removeLayer(stormLayer);
-    //         console.log(Math.floor(filter[0]));
-    //         //console.log("filter",filter[0]);
-    //         var params = {year:Math.round(filter[0]),state:"NEW YORK",exact:"younger"};
-    //         queryDb(params);
-
-    //     },500)
-    // })
-
 
     
     var thousands = d3.format(".3f");
@@ -197,6 +146,11 @@ function mapDraw(data){
         $('#select_state').on('click',function(d,e){
                 map.removeLayer(stormLayer);
         })
+
+        $('#allEvents').on('mouseup',function(d,e){
+            map.removeLayer(stormLayer); 
+        })
+
 
 
     var stormLayer = new L.GeoJSON(stormEvents,options)

@@ -1,3 +1,5 @@
+    window.brushFilter = [2012,2014];
+
 function chartDraw(data){
 	//Draws chart
 		//console.log("allevents",data);
@@ -34,5 +36,16 @@ function chartDraw(data){
 	d3.selectAll('.x text').attr('transform','rotate(35)').attr('dx','20');
 
 
+
+
+	allEventChart.brush().extent([2012,2014])
 	dc.redrawAll();
+
+	allEventChart.on("filtered",function(chart,filter){
+        dc.events.trigger(function(){
+            brushFilter = filter;
+            console.log("global var in chartDraw",brushFilter);
+        })
+    })
+
 }
