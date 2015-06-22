@@ -9,7 +9,10 @@
       zoomControl: false
     });
 
-
+    // Initial Load and Default parameters
+    
+    var mapParams = {state:"NEW YORK",eType:"All",startYear:"2012",endYear:"2014"};
+    var chartParams = {state:"All",eType:"All"};
 
 
     var thousandsFormat = d3.format(".3f");
@@ -29,17 +32,19 @@ var sidebar = L.control.sidebar('sidebar', {
 
 
 
-    $('#bar_select').on('click',function(d,e){
+    $('#select_event').on('click',function(d,e){
         var type = $(this).val();
-        allEventsQuery(type);
+
+        mapParams = {state:"NEW YORK",eType:type,startYear:"2012",endYear:"2014"};
+        chartParams = {state:"All",eType:type};
+
+        syncMap(syncMapDraw);
+        syncChart(syncChartDraw);
     })
 
 
 
-    // Initial Load and Default parameters
-    
-    var mapParams = {state:"NEW YORK",eType:"All",startYear:"2012",endYear:"2014"};
-var chartParams = {state:"All",eType:"All"};
+
 
 
 
@@ -67,10 +72,7 @@ function syncMapDraw(params){
 
 syncMap(syncMapDraw);
 syncChart(syncChartDraw);  // foo will run, then calls bar after foo is finished.
-    // d3.json(mapQuery(mapParams),function(err,mapData){
-    //     console.log("index log of mapData",mapData);
-    //     //Call to mapDraw
-    // })
+
 
 
 

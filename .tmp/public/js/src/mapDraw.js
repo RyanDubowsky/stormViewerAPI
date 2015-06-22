@@ -190,6 +190,9 @@ function mapDraw(data){
             return curCircle;
          }
     };
+        $('#select_event').on('click',function(d,e){
+                map.removeLayer(stormLayer);
+        })
 
     var stormLayer = new L.GeoJSON(stormEvents,options)
     map.addLayer(stormLayer);
