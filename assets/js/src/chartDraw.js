@@ -35,17 +35,43 @@ function chartDraw(data){
 
 	d3.selectAll('.x text').attr('transform','rotate(35)').attr('dx','20');
 
-
+	allEventChart.brush().on('brushend',function(){
+		console.log("brush is over");
+	});
 
 
 	allEventChart.brush().extent([2012,2014])
 	dc.redrawAll();
 
+
+	function sendFilter(filter){
+		brushFilter = filter;
+        console.log("global var in chartDraw",brushFilter);
+	}
+
+	function snapBrush(){
+		console.log("Log in snapBrush");
+
+		d3.select(allEventChart.brush().extent([1960,1970]));
+		var curBrush = d3.select(allEventChart.brush());
+		curBrush.call(curBrush)
+
+	}
+
 	allEventChart.on("filtered",function(chart,filter){
         dc.events.trigger(function(){
-            brushFilter = filter;
-            console.log("global var in chartDraw",brushFilter);
+
+        	sendFilter(filter);
+
+
         })
     })
+
+    // allEventChart.on("filtered",function(chart,filter){
+    // 	dc.events.trigger(function(){
+    // 				snapBrush();
+    // 		        dc.redrawAll();
+    // 	})
+    // },500)
 
 }

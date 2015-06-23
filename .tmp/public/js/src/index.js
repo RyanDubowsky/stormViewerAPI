@@ -119,6 +119,7 @@ var sidebar = L.control.sidebar('sidebar', {
 
 
         setTimeout(syncMap(syncMapDraw),250);
+
     })
 
 

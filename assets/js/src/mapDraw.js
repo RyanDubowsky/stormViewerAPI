@@ -155,4 +155,5 @@ function mapDraw(data){
 
     var stormLayer = new L.GeoJSON(stormEvents,options)
     map.addLayer(stormLayer);
+
 }
