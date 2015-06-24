@@ -59,11 +59,11 @@ function mapDraw(data){
 
     var damageRadiusScale = d3.scale.sqrt()
         .domain([0,100000000])
-        .range([6,30]);
+        .range([5,35]);
 
     var opaScale = d3.scale.sqrt()
         .domain([3,30])
-        .range([.4, .20]);
+        .range([.3, .15]);
     
     var radiusScale = function(d){
         //console.log(d.properties.DAMAGE_PROPERTY.substr(0,d.properties.DAMAGE_PROPERTY.length-1));

@@ -1,4 +1,4 @@
-
+    window.brushFilter = [2010,2013];
     /* Basemap Layers */
     var mapquestOSM = L.tileLayer("http://{s}.tiles.mapbox.com/v3/am3081.h0po4e8k/{z}/{x}/{y}.png");
     
@@ -11,7 +11,7 @@
     });
 
     // Initial Load and Default parameters
-    var mapParams = {state:"NEW YORK",eType:"All",startYear:"2012",endYear:"2014"};
+    var mapParams = {state:"NEW YORK",eType:"All",startYear:"2010",endYear:"2013"};
     var chartParams = {state:"All",eType:"All"};
 
 
@@ -53,10 +53,11 @@ var sidebar = L.control.sidebar('sidebar', {
         chartParams.state = $('#select_state').val();
         chartParams.eType = type;
 
-        //Redraw chart and map
+        //Redraw map
         syncMap(syncMapDraw);
         syncChart(syncChartDraw);
     })
+
 
 
     $('#select_state').on('click',function(d,e){
@@ -84,7 +85,6 @@ var sidebar = L.control.sidebar('sidebar', {
 
             latLonObj.forEach(function(stateObj){
                if (stateObj.key == state){
-                    console.log(stateObj);
                     map.panTo(L.latLng(stateObj.latitude,stateObj.longitude));
                }
             })
@@ -97,7 +97,6 @@ var sidebar = L.control.sidebar('sidebar', {
 
     $('#allEvents').on('mouseup',function(d,e){
 
-        console.log("global filter var in index",brushFilter);
         if($('#select_state').val() == 'All'){
            mapParams.eType = $('#select_event').val();
            mapParams.startYear = Math.round(brushFilter[0]);
@@ -110,18 +109,26 @@ var sidebar = L.control.sidebar('sidebar', {
            mapParams.endYear = Math.round(brushFilter[1]);
         }
 
+        brushFilter[0] = mapParams.startYear;
+        brushFilter[1] = mapParams.endYear;
+        document.getElementById("year_display").innerHTML = "Year(s) displayed: " + brushFilter[0] + "-" + brushFilter[1];
+        console.log("logging brush in index event",brushFilter);
 
         chartParams.state = $('#select_state').val();
         chartParams.eType = $('#select_event').val();
 
-        console.log("chartParams in index", mapParams);
-        console.log("mapParams in index", chartParams);  
+
 
 
         setTimeout(syncMap(syncMapDraw),250);
-
     })
 
+
+
+        // map.on('layeradd',function(d,e){
+        //     console.log("hi");
+        //     setTimeout(syncChart(syncChartDraw),400);
+        // })
 
 
 

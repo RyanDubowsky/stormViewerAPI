@@ -1,4 +1,4 @@
-    window.brushFilter = [2012,2014];
+
 
 function chartDraw(data){
 	//Draws chart
@@ -35,24 +35,20 @@ function chartDraw(data){
 
 	d3.selectAll('.x text').attr('transform','rotate(35)').attr('dx','20');
 
-	allEventChart.brush().on('brushend',function(){
-		console.log("brush is over");
-	});
-
-
-	allEventChart.brush().extent([2012,2014])
+	allEventChart.brush().extent(brushFilter);
 	dc.redrawAll();
+
 
 
 	function sendFilter(filter){
 		brushFilter = filter;
-        console.log("global var in chartDraw",brushFilter);
+
 	}
 
 	function snapBrush(){
-		console.log("Log in snapBrush");
 
-		d3.select(allEventChart.brush().extent([1960,1970]));
+
+		d3.select();
 		var curBrush = d3.select(allEventChart.brush());
 		curBrush.call(curBrush)
 
@@ -60,18 +56,12 @@ function chartDraw(data){
 
 	allEventChart.on("filtered",function(chart,filter){
         dc.events.trigger(function(){
-
         	sendFilter(filter);
-
-
         })
     })
 
-    // allEventChart.on("filtered",function(chart,filter){
-    // 	dc.events.trigger(function(){
-    // 				snapBrush();
-    // 		        dc.redrawAll();
-    // 	})
-    // },500)
+
+
+
 
 }
