@@ -2,7 +2,7 @@ function mapQuery(params,callback){
 	
 	var mapData; //Proccesses damage numbers so they can play nice with rest of app
 
-    var url = "http://localhost:1337/storms/mapEvents/"+params.state+"/"+params.eType+"/"+params.startYear+"/"+params.endYear;
+    var url = "/storms/mapEvents/"+params.state+"/"+params.eType+"/"+params.startYear+"/"+params.endYear;
     console.log("URL in map query function:",url);
 
     var damagePopScale = function(damage){

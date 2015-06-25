@@ -18,7 +18,8 @@ var cssFilesToInject = [
   'styles/**/*.css',
   'bower_components/leaflet/dist/leaflet.css',
   'bower_components/dcjs/dc.css',
-  'bower_components/leaflet-sidebar/src/L.Control.Sidebar.css'
+  'bower_components/leaflet-sidebar/src/L.Control.Sidebar.css',
+  'bower_components/bootstrap/dist/css/bootstrap.css'
 ];
 
 
@@ -35,6 +36,7 @@ var jsFilesToInject = [
   'bower_components/leaflet-sidebar/src/L.Control.Sidebar.js',
   'bower_components/crossfilter/crossfilter.min.js',
   'bower_components/dcjs/dc.min.js',
+  'bower_components/bootstrap/dist/js/bootstrap.js',
   'js/src/mapQuery.js',
   'js/src/chartDraw.js',
   'js/src/chartQuery.js',
