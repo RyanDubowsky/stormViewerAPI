@@ -157,5 +157,3 @@ syncMap(syncMapDraw);
 syncChart(syncChartDraw);  // foo will run, then calls bar after foo is finished.
 
 
-
-
