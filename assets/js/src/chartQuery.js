@@ -5,7 +5,7 @@ function chartQuery(params,callback){
 	var barEvents; //Filters out for type
 	var finalBarEvents = []; //Process barEvents to work nice with charts
 
-    var url = "http://localhost:1337/storms/chartEvents/"+params.state+"/"+params.eType
+    var url = "/storms/chartEvents/"+params.state+"/"+params.eType
 
 
     console.log("URL in chartQuery function:",url);
