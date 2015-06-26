@@ -1,11 +1,11 @@
-function chartQuery(params,callback){
+function barChartQuery(params,callback){
 	var mapData; //1st Process of data from DB
 	var locationEvents; //Filtered out null-years
 	var talliedEvents = []; //Summed all types for each year
 	var barEvents; //Filters out for type
 	var finalBarEvents = []; //Process barEvents to work nice with charts
 
-    var url = "/storms/chartEvents/"+params.state+"/"+params.eType
+    var url = "/storms/barChart/"+params.state+"/"+params.eType
 
 
     console.log("URL in chartQuery function:",url);

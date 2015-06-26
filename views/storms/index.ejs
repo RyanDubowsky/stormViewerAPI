@@ -31,11 +31,12 @@
         visibility: hidden;
         pointer-events: none;
     }
-    #allEvents{
+    #charts{
         position:absolute;
-        width:100%;
+        width:99%;
         height:25%;
         bottom:10px;
+        left:7px;
         background:white;
         text-align:center;
     }
@@ -139,19 +140,20 @@
     <div id="tooltip">
     </div>
         <div id="tabs" class="container">
-        <ul class="nav nav-pills">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Menu 1</a></li>
-            <li><a href="#">Menu 2</a></li>
-            <li><a href="#">Menu 3</a></li>
-        </ul>
+        <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#allEvents">Section A</a></li>
+        <li><a data-toggle="tab" href="#sectionB">Section B</a></li>
+    </ul>
         </div>
-    <div id="allEvents">
-
-        <div id="yearChart" style="float:bottom"></div>
-        <h4> Reported events per year </h4>
+    <div id="charts" class="tab-content">
+        <div id="allEvents" class="tab-pane fade in active">
+            <div id="yearChart" style="float:bottom"></div>
+            <h4> Reported events per year </h4>
+        </div>
+        <div id="sectionB" class="tab-pane fade">
+            Testings
+        </div>
     </div>
-
 
     
   </body>

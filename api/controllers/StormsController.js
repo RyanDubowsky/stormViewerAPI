@@ -9,7 +9,7 @@ module.exports = {
 	index: function(req,res){
 		res.view();
 	},
-	chartEvents:function(req,res){
+	barChart:function(req,res){
 		var state = req.param('state');
 		var type  = req.param('type');
 
@@ -34,10 +34,10 @@ module.exports = {
 			queryType =  ' AND "EVENT_TYPE" = \''+type+'\''
 		}
 
-		//Base + state param + type param + end
+		//Base + state param + type param + end`
 		finalQuery = queryBase + queryState + queryType + queryEnd;
 
-		console.log(finalQuery);
+		//console.log(finalQuery);
 		Storms.query(finalQuery,null,function(err,data){
 			res.json({'state' : data});
 		})
@@ -68,10 +68,37 @@ module.exports = {
 		//Base + State param + type Param + year range + lat/long null check
 		finalQuery = queryBase + queryState + queryType + queryYear + queryEnd;
 
-		console.log(finalQuery);
+		//console.log(finalQuery);
 		Storms.query(finalQuery,null,function(err,data){
 				res.json({'state' : data});
 			})
+
+	},
+	lineChart:function(req,res){
+		var state = req.param('state');
+		var type  = req.param('type');
+
+		var queryBase = 'select "YEAR","CZ_FIPS","DAMAGE_PROPERTY" from stormevents';
+		var queryEnd = ' ORDER BY "YEAR" DESC';
+		var queryState = ' where "STATE" = \''+state+'\'';
+		var queryType; // May be all types
+		var finalQuery;
+
+		//Type is last param. If it is all, simply do not include
+		if(type == "All"){
+			queryType = '';
+		}
+		else{
+			queryType =  ' AND "EVENT_TYPE" = \''+type+'\''
+		}
+
+		//Base + state param + type param + end
+		finalQuery = queryBase + queryState + queryType + queryEnd;
+
+		console.log(finalQuery);
+		Storms.query(finalQuery,null,function(err,data){
+			res.json({'state' : data});
+		})
 
 	}
 

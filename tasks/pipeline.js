@@ -38,8 +38,10 @@ var jsFilesToInject = [
   'bower_components/dcjs/dc.min.js',
   'bower_components/bootstrap/dist/js/bootstrap.js',
   'js/src/mapQuery.js',
-  'js/src/chartDraw.js',
-  'js/src/chartQuery.js',
+  'js/src/barChartDraw.js',
+  'js/src/barChartQuery.js',
+  'js/src/lineChartDraw.js',
+  'js/src/lineChartQuery.js',
   'js/src/mapDraw.js',
   'js/src/index.js'
 

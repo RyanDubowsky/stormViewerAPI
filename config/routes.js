@@ -37,9 +37,9 @@ module.exports.routes = {
   },
   '/': 'StormsController.index',
 
-  '/storms/chartEvents/:state/:type':{
+  '/storms/barChart/:state/:type':{
     controller: 'StormsController',
-    action:'chartEvents',
+    action:'barChart',
     cors:{
       origin:'*'
     }
@@ -50,8 +50,14 @@ module.exports.routes = {
     cors:{
       origin:'*'
     }
-  }
-  
+  },
+  '/storms/lineChart/:state/:type':{
+    controller: 'StormsController',
+    action:'lineChart',
+    cors:{
+      origin:'*'
+    }
+  }  
 
 
   /***************************************************************************

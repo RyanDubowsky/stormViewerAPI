@@ -12,7 +12,8 @@
 
     // Initial Load and Default parameters
     var mapParams = {state:"NEW YORK",eType:"All",startYear:"2010",endYear:"2013"};
-    var chartParams = {state:"All",eType:"All"};
+    var barChartParams = {state:"All",eType:"All"};
+    var lineChartParams = {state:"NEW YORK",eType:"Hail"};
 
 
     var thousandsFormat = d3.format(".3f");
@@ -50,12 +51,12 @@ var sidebar = L.control.sidebar('sidebar', {
 
 
 
-        chartParams.state = $('#select_state').val();
-        chartParams.eType = type;
+        barChartParams.state = $('#select_state').val();
+        barChartParams.eType = type;
 
         //Redraw map
         syncMap(syncMapDraw);
-        syncChart(syncChartDraw);
+        syncBarChart(syncBarChartDraw);
     })
 
 
@@ -77,8 +78,8 @@ var sidebar = L.control.sidebar('sidebar', {
             mapParams.endYear = Math.round(brushFilter[1]);
         }
 
-        chartParams.state = state;
-        chartParams.eType = $('#select_event').val();
+        barChartParams.state = state;
+        barChartParams.eType = $('#select_event').val();
 
 
         d3.json("../data/stateLatLong.json",function(err,latLonObj){
@@ -91,7 +92,7 @@ var sidebar = L.control.sidebar('sidebar', {
 
             //Redraw chart and map
             syncMap(syncMapDraw);
-            syncChart(syncChartDraw);
+            syncBarChart(syncBarChartDraw);
         })
     })
 
@@ -114,8 +115,8 @@ var sidebar = L.control.sidebar('sidebar', {
         document.getElementById("year_display").innerHTML = "Year(s) displayed: " + brushFilter[0] + "-" + brushFilter[1];
         console.log("logging brush in index event",brushFilter);
 
-        chartParams.state = $('#select_state').val();
-        chartParams.eType = $('#select_event').val();
+        barChartParams.state = $('#select_state').val();
+        barChartParams.eType = $('#select_event').val();
 
 
 
@@ -127,19 +128,19 @@ var sidebar = L.control.sidebar('sidebar', {
 
         // map.on('layeradd',function(d,e){
         //     console.log("hi");
-        //     setTimeout(syncChart(syncChartDraw),400);
+        //     setTimeout(syncBarChart(syncBarChartDraw),400);
         // })
 
 
 
-function syncChart(callback){
+function syncBarChart(callback){
     //GET THE DATA
-    chartQuery(chartParams,callback);
+    barChartQuery(barChartParams,callback);
 }
 
-function syncChartDraw(params){
+function syncBarChartDraw(params){
     //console.log("index log of chart data",params);
-    chartDraw(params);
+    barChartDraw(params);
 }
 
 function syncMap(callback){
@@ -153,7 +154,17 @@ function syncMapDraw(params){
     mapDraw(params);
 }
 
-syncMap(syncMapDraw);
-syncChart(syncChartDraw);  // foo will run, then calls bar after foo is finished.
+function syncLineChart(callback){
+    //GET THE DATA
+    lineChartQuery(lineChartParams,callback);
+}
 
+function synclineChartDraw(params){
+    //console.log("index log of chart data",params);
+    //lineChartDraw(params);
+}
+
+syncMap(syncMapDraw);
+syncBarChart(syncBarChartDraw);  // foo will run, then calls bar after foo is finished.
+syncLineChart(synclineChartDraw);
 

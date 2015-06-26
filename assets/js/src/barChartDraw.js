@@ -1,6 +1,6 @@
 
 
-function chartDraw(data){
+function barChartDraw(data){
 	//Draws chart
 		//console.log("allevents",data);
 
