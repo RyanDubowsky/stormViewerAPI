@@ -141,17 +141,18 @@
     </div>
         <div id="tabs" class="container">
         <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#allEvents">Section A</a></li>
-        <li><a data-toggle="tab" href="#sectionB">Section B</a></li>
+        <li class="active"><a data-toggle="tab" href="#barChart">Total Events per Year</a></li>
+        <li><a data-toggle="tab" href="#lineChart">County Damages</a></li>
     </ul>
         </div>
     <div id="charts" class="tab-content">
-        <div id="allEvents" class="tab-pane fade in active">
-            <div id="yearChart" style="float:bottom"></div>
+        <div id="barChart" class="tab-pane fade in active">
             <h4> Reported events per year </h4>
+            <div id="yearChart" style="float:bottom"></div>
         </div>
-        <div id="sectionB" class="tab-pane fade">
-            Testings
+        <div id="lineChart" class="tab-pane fade">
+            <h4> Property damage per year per county </h4>
+            <div id="countyChart" style="float:bottom"></div>
         </div>
     </div>
 

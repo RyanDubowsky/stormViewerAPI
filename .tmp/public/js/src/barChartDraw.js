@@ -5,7 +5,7 @@ function barChartDraw(data){
 		//console.log("allevents",data);
 
 	allEventFilter = crossfilter(data),
-	allEventChart = dc.barChart("#allEvents"),
+	allEventChart = dc.barChart("#yearChart"),
 
 	eventDimension = allEventFilter.dimension(function(d){return d.year }),
 	eventGroup = eventDimension.group().reduceSum(function(d){ return d.count});

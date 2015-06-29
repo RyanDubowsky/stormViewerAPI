@@ -96,7 +96,7 @@ var sidebar = L.control.sidebar('sidebar', {
         })
     })
 
-    $('#allEvents').on('mouseup',function(d,e){
+    $('#barChart').on('mouseup',function(d,e){
 
         if($('#select_state').val() == 'All'){
            mapParams.eType = $('#select_event').val();
@@ -161,7 +161,7 @@ function syncLineChart(callback){
 
 function synclineChartDraw(params){
     //console.log("index log of chart data",params);
-    //lineChartDraw(params);
+    lineChartDraw(params);
 }
 
 syncMap(syncMapDraw);

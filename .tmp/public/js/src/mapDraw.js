@@ -160,7 +160,7 @@ function mapDraw(data){
                 map.removeLayer(stormLayer);
         })
 
-        $('#allEvents').on('mouseup',function(d,e){
+        $('#barChart').on('mouseup',function(d,e){
             map.removeLayer(stormLayer); 
         })
 

@@ -40,6 +40,7 @@ var jsFilesToInject = [
   'js/src/mapQuery.js',
   'js/src/barChartDraw.js',
   'js/src/barChartQuery.js',
+  'js/src/lineComposite.js',
   'js/src/lineChartDraw.js',
   'js/src/lineChartQuery.js',
   'js/src/mapDraw.js',
