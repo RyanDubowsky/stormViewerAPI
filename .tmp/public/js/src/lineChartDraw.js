@@ -53,8 +53,17 @@ function lineChartDraw(data){
 
 // groupByCounty = countyDim.group();
 
+var dimensionCountyYear = countyCross.dimension(function(d){
+	return 'year='+d.YEAR+'county='+d.CZ_FIPS;
+})
 
+var yearCountyDamage = dimensionCountyYear.group().reduceSum(function(d){
+	return d.DAMAGE_PROPERTY;
+}).all();
 
+yearCountyDamage.forEach(function(dummy){
+	console.log(dummy);
+})
 
 
 
@@ -66,18 +75,16 @@ function lineChartDraw(data){
 
 		//fipsArray.forEach(function(uniqueFips){
 			curChart = dc.lineChart(countyCompositeChart);
+			//countyDim.filter(uniqueFips)
+			curGroup = countyDim.group().reduceSum(function(d){return +d.DAMAGE_PROPERTY});
 
-			countyDim.filter(29)
-			curGroup = yearDim.group().reduceSum(function(d){return d.DAMAGE_PROPERTY });
+			//console.log(yearDim.top(Infinity));
 
 
-
-
-			curGroup.top(Infinity).forEach(function(p,i){
-				console.log(p);
-			})
+			// curGroup.top(Infinity).forEach(function(p,i){
+			// 	console.log(p);
+			// })
 			curChart
-				.dimension(yearDim)
 				.group(curGroup)
 				.width(1350)
 				.height(150)
@@ -87,7 +94,7 @@ function lineChartDraw(data){
 
 				// curChart = null;
 				// curGroup = null;
-				// yearDim.filterAll();
+				yearDim.filterAll();
 
 		//})
 
