@@ -55,20 +55,14 @@ function lineChartQuery(params,callback){
         })
 
 
-        //May need to callback(draw) once per county, in here.
 
 
 
 
-        locationEvents.forEach(function(aEvent){
-            if(aEvent.CZ_FIPS == "75"){
-                talliedEvents.push(aEvent);
-            }
-        })
+
+
 
         //console.log(locationEvents);
-
-
         callback(locationEvents);
     });// end d3.json
 
