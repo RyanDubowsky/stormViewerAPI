@@ -37,6 +37,7 @@ var jsFilesToInject = [
   'bower_components/crossfilter/crossfilter.min.js',
   'bower_components/dcjs/dc.min.js',
   'bower_components/bootstrap/dist/js/bootstrap.js',
+  'bower_components/colorbrewer/colorbrewer.js',
   'js/src/mapQuery.js',
   'js/src/barChartDraw.js',
   'js/src/barChartQuery.js',

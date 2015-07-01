@@ -5,7 +5,7 @@ function barChartDraw(data){
 		//console.log("allevents",data);
 
 	allEventFilter = crossfilter(data),
-	allEventChart = dc.barChart("#yearChart"),
+	allEventChart = dc.barChart("#yearChart","barGroup"),
 
 	eventDimension = allEventFilter.dimension(function(d){return d.year }),
 	eventGroup = eventDimension.group().reduceSum(function(d){ return d.count});
@@ -28,15 +28,14 @@ function barChartDraw(data){
 		.xAxis()
 			.tickFormat(d3.format("d"))
 			.ticks(2015-1950)
-	//allEventChart.yAxis().ticks();
 	allEventChart.yAxis().tickFormat(function(d) { return damageAxisFormat(d).replace("G","B"); });
-	dc.renderAll();
+	dc.renderAll("barGroup");
 
 
 	d3.selectAll('.x text').attr('transform','rotate(35)').attr('dx','20');
 
 	allEventChart.brush().extent(brushFilter);
-	dc.redrawAll();
+	dc.redrawAll("barGroup");
 
 
 

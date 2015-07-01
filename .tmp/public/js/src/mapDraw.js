@@ -6,7 +6,7 @@ function mapDraw(data){
     var hexColorCodes = ['#3088f0','#4493f1','#599ff3','#6eabf4','#82b7f6','#97c3f7','#accff9'];
     var comma = d3.format(",");
 
-    //
+    console.log(data);
 
     stormEvents.features = locationEvents.map(function(stormevent){
 
@@ -78,14 +78,10 @@ function mapDraw(data){
         }
     }
 
-    var eventColorScale = d3.scale.ordinal()
-        .domain(allEventTypes)
-        .range(hexColorCodes);
+    var countyColorScale = d3.scale.category20()
 
 
-    var eveColorScale = function(d){
-        return eventColorScale(d.properties.EVENT_TYPE);
-    }
+  
 
     var opacityScale = function(d){
         return opaScale(radiusScale(d));
@@ -119,7 +115,7 @@ function mapDraw(data){
     var markerOptions = function(d){
         var curRadius = radiusScale(d);
         var curOpacity = opacityScale(d);
-        var curColor = eveColorScale(d);
+        var curColor = countyColorScale(d.CZ_FIPS);
         return {radius:curRadius, fillOpacity:curOpacity, color:curColor, fillColor:curColor}
     }
 

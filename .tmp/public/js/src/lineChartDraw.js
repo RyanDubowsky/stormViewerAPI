@@ -1,11 +1,5 @@
 function lineChartDraw(data){
-	//Draws line charts
-	//console.log("in individual",data);
-
-	var curLine; // Current Line Chart
-	var lineChartArray=[]; //Line Chart Array
-	var fipsArray = []; // Array of unique fips for this query
-	var unique = true // Boolean for finding unique fips
+	//Draws a series of line charts, summing damags for desired state and event type
 
 
 
@@ -16,23 +10,14 @@ function lineChartDraw(data){
 	    .range([0,1000]);
 
 
-//Goes through every row of data to gather unique fips ID for this query
+
+
+
+//Goes through every row of data to make them numbers
 	data.forEach(function(curRow){
 		curRow.YEAR = +curRow.YEAR;
 		curRow.DAMAGE_PROPERTY = +curRow.DAMAGE_PROPERTY;
 		curRow.CZ_FIPS = +curRow.CZ_FIPS;
-
-		fipsArray.forEach(function(fipsCode){
-			if(curRow.CZ_FIPS == fipsCode){
-				unique = false;
-			}
-		})
-
-		if(unique){
-			fipsArray.push(curRow.CZ_FIPS);
-		}
-
-		unique = true;
 	})
 
 	finalData = data.filter(function(curEvent){
@@ -41,7 +26,7 @@ function lineChartDraw(data){
 
 
 	var countyCross = crossfilter(finalData)
-	var	countyCompositeChart = dc.compositeChart("#countyChart")
+	var	countySeriesChart = dc.seriesChart("#countyChart","seriesGroup")
 
 	var	yearDim = countyCross.dimension(function(d){return d.YEAR });
 	var damageDim = countyCross.dimension(function(d){return d.DAMAGE_PROPERTY});
@@ -54,85 +39,55 @@ function lineChartDraw(data){
 // groupByCounty = countyDim.group();
 
 var dimensionCountyYear = countyCross.dimension(function(d){
-	return 'year='+d.YEAR+'county='+d.CZ_FIPS;
+	return [d.YEAR,d.CZ_FIPS]
 })
-
-var yearCountyDamage = dimensionCountyYear.group().reduceSum(function(d){
+// /'year='+d.YEAR+'county='+d.CZ_FIPS;
+var groupYearCountyDamage = dimensionCountyYear.group().reduceSum(function(d){
 	return d.DAMAGE_PROPERTY;
-}).all();
+});
 
-yearCountyDamage.forEach(function(dummy){
-	console.log(dummy);
-})
+// groupYearCountyDamage.forEach(function(dummy){
+// 	console.log(dummy);
+// })
 
-
-
-
-	var curChart;
-	var curGroup;
+console.log(groupYearCountyDamage.top(10))
 
 
-
-		//fipsArray.forEach(function(uniqueFips){
-			curChart = dc.lineChart(countyCompositeChart);
-			//countyDim.filter(uniqueFips)
-			curGroup = countyDim.group().reduceSum(function(d){return +d.DAMAGE_PROPERTY});
-
-			//console.log(yearDim.top(Infinity));
-
-
-			// curGroup.top(Infinity).forEach(function(p,i){
-			// 	console.log(p);
-			// })
-			curChart
-				.group(curGroup)
-				.width(1350)
-				.height(150)
-        		.renderHorizontalGridLines(true)
-
-				lineChartArray.push(curChart);
-
-				// curChart = null;
-				// curGroup = null;
-				yearDim.filterAll();
-
-		//})
-
-
-
-
-
-
-    countyCompositeChart
+    countySeriesChart
 		.width(1350)
 		.height(150)
+		.chart(function(c) {return dc.lineChart(c) })
         .yAxisLabel("Total Damages in USD")
         .xAxisLabel("Year")
-        .renderHorizontalGridLines(true)
-        .dimension(yearDim)
+	    .elasticX(true)
+	    .elasticY(true)
+        //.renderHorizontalGridLines(true)
+        .dimension(dimensionCountyYear,"year")
+        .group(groupYearCountyDamage)
 		.x(d3.scale.linear().domain([1950,2015]))
         .brushOn(false)
-        .compose(lineChartArray)
-		.xAxis()
+	    .seriesAccessor(function(d) {return d.key[1];})
+	    .keyAccessor(function(d) {return d.key[0];})
+	    .valueAccessor(function(d) {return d.value;})
+	    .colors(d3.scale.category20())
+	    .title(function(d){return d.key[0] + ": $" + comma(d.value)})
+	    .legend(dc.legend().x(1250).y(-20).itemHeight(13).gap(5).horizontal(1).legendWidth(140).itemWidth(70));
+
+		countySeriesChart.xAxis()
 			.tickFormat(d3.format("d"))
 			.ticks(2015-1950)
 
+		countySeriesChart.render();
 
 
 
 
 
-	countyCompositeChart.yAxis().tickFormat(function(d) { return damageAxisFormat(d).replace("G","B"); });
-	dc.renderAll();
+	countySeriesChart.yAxis().tickFormat(function(d) { return damageAxisFormat(d).replace("G","B"); });
+	dc.renderAll("seriesGroup");
 
 
 	d3.selectAll('.x text').attr('transform','rotate(35)').attr('dx','20');
 
-	dc.redrawAll();
-
-
-
-
-
-
+	dc.redrawAll("seriesGroup");
 }

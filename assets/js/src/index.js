@@ -13,7 +13,7 @@
     // Initial Load and Default parameters
     var mapParams = {state:"NEW YORK",eType:"All",startYear:"2010",endYear:"2013"};
     var barChartParams = {state:"All",eType:"All"};
-    var lineChartParams = {state:"NEW YORK",eType:"Hail"};
+    var lineChartParams = {state:"NEW YORK",eType:"All"};
 
 
     var thousandsFormat = d3.format(".3f");
@@ -52,11 +52,14 @@ var sidebar = L.control.sidebar('sidebar', {
 
 
         barChartParams.state = $('#select_state').val();
-        barChartParams.eType = type;
+        lineChartParams.eType = type;
+        barChartParams.state = $('#select_state').val();
+        lineChartParams.eType = type;
 
         //Redraw map
         syncMap(syncMapDraw);
         syncBarChart(syncBarChartDraw);
+        syncLineChart(synclineChartDraw);
     })
 
 
@@ -80,6 +83,8 @@ var sidebar = L.control.sidebar('sidebar', {
 
         barChartParams.state = state;
         barChartParams.eType = $('#select_event').val();
+        lineChartParams.state = state;
+        lineChartParams.eType = $('#select_event').val();
 
 
         d3.json("../data/stateLatLong.json",function(err,latLonObj){
@@ -93,6 +98,7 @@ var sidebar = L.control.sidebar('sidebar', {
             //Redraw chart and map
             syncMap(syncMapDraw);
             syncBarChart(syncBarChartDraw);
+            syncLineChart(synclineChartDraw);
         })
     })
 
@@ -167,4 +173,5 @@ function synclineChartDraw(params){
 syncMap(syncMapDraw);
 syncBarChart(syncBarChartDraw);  // foo will run, then calls bar after foo is finished.
 syncLineChart(synclineChartDraw);
+
 
