@@ -6,7 +6,7 @@ function mapDraw(data){
     var hexColorCodes = ['#3088f0','#4493f1','#599ff3','#6eabf4','#82b7f6','#97c3f7','#accff9'];
     var comma = d3.format(",");
 
-    console.log(data);
+    //console.log(data);
 
     stormEvents.features = locationEvents.map(function(stormevent){
 
@@ -115,7 +115,7 @@ function mapDraw(data){
     var markerOptions = function(d){
         var curRadius = radiusScale(d);
         var curOpacity = opacityScale(d);
-        var curColor = countyColorScale(d.CZ_FIPS);
+        var curColor = countyColorScale(d.properties.CZ_NAME);
         return {radius:curRadius, fillOpacity:curOpacity, color:curColor, fillColor:curColor}
     }
 

@@ -17,7 +17,7 @@ function lineChartDraw(data){
 	data.forEach(function(curRow){
 		curRow.YEAR = +curRow.YEAR;
 		curRow.DAMAGE_PROPERTY = +curRow.DAMAGE_PROPERTY;
-		curRow.CZ_FIPS = +curRow.CZ_FIPS;
+		//curRow.CZ_FIPS = +curRow.CZ_FIPS;
 	})
 
 	finalData = data.filter(function(curEvent){
@@ -30,7 +30,7 @@ function lineChartDraw(data){
 
 	var	yearDim = countyCross.dimension(function(d){return d.YEAR });
 	var damageDim = countyCross.dimension(function(d){return d.DAMAGE_PROPERTY});
-	var countyDim = countyCross.dimension(function(d){return d.CZ_FIPS});
+	var countyDim = countyCross.dimension(function(d){return d.CZ_NAME});
 
 // damageDim.filter([1000,Infinity]);
 
@@ -39,7 +39,7 @@ function lineChartDraw(data){
 // groupByCounty = countyDim.group();
 
 var dimensionCountyYear = countyCross.dimension(function(d){
-	return [d.YEAR,d.CZ_FIPS]
+	return [d.YEAR,d.CZ_NAME]
 })
 // /'year='+d.YEAR+'county='+d.CZ_FIPS;
 var groupYearCountyDamage = dimensionCountyYear.group().reduceSum(function(d){
@@ -69,9 +69,11 @@ console.log(groupYearCountyDamage.top(10))
 	    .seriesAccessor(function(d) {return d.key[1];})
 	    .keyAccessor(function(d) {return d.key[0];})
 	    .valueAccessor(function(d) {return d.value;})
-	    .colors(d3.scale.category20())
-	    .title(function(d){return d.key[0] + ": $" + comma(d.value)})
-	    .legend(dc.legend().x(1250).y(-20).itemHeight(13).gap(5).horizontal(1).legendWidth(140).itemWidth(70));
+	    .colorAccessor(function(d) {return d.key[1];})
+	    .title(function(d){return "County: " + d.key[1] +"\n"+ d.key[0] + ": $" + comma(d.value)})
+	    
+
+	    countySeriesChart.legend(dc.legend().x(1250).y(-20).itemHeight(13).gap(5).horizontal(1).legendWidth(140).itemWidth(70));
 
 		countySeriesChart.xAxis()
 			.tickFormat(d3.format("d"))

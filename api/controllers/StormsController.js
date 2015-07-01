@@ -78,7 +78,7 @@ module.exports = {
 		var state = req.param('state');
 		var type  = req.param('type');
 
-		var queryBase = 'select "YEAR","CZ_FIPS","DAMAGE_PROPERTY" from stormevents';
+		var queryBase = 'select "YEAR","CZ_NAME","DAMAGE_PROPERTY" from stormevents';
 		var queryEnd = ' AND "DAMAGE_PROPERTY" IS NOT NULL ORDER BY "YEAR" DESC';
 		var queryState = ' where "STATE" = \''+state+'\'';
 		var queryType; // May be all types
