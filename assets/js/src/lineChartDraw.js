@@ -55,10 +55,9 @@ console.log(groupYearCountyDamage.top(10))
 
     countySeriesChart
 		.width(1350)
-		.height(150)
+		.height(265)
 		.chart(function(c) {return dc.lineChart(c) })
-        .yAxisLabel("Total Damages in USD")
-        .xAxisLabel("Year")
+        .yAxisLabel("Damage in USD")
 	    .elasticX(true)
 	    .elasticY(true)
         //.renderHorizontalGridLines(true)
@@ -66,14 +65,13 @@ console.log(groupYearCountyDamage.top(10))
         .group(groupYearCountyDamage)
 		.x(d3.scale.linear().domain([1950,2015]))
         .brushOn(false)
+		.margins({ top: 10, left: 50, right: 30, bottom: 170 })    
 	    .seriesAccessor(function(d) {return d.key[1];})
 	    .keyAccessor(function(d) {return d.key[0];})
 	    .valueAccessor(function(d) {return d.value;})
 	    .colorAccessor(function(d) {return d.key[1];})
 	    .title(function(d){return "County: " + d.key[1] +"\n"+ d.key[0] + ": $" + comma(d.value)})
-	    
-
-	    countySeriesChart.legend(dc.legend().x(1250).y(-20).itemHeight(13).gap(5).horizontal(1).legendWidth(140).itemWidth(70));
+	    .legend(dc.legend().x(25).y(130).itemHeight(7).gap(5).horizontal(1).legendWidth(1325).itemWidth(90));
 
 		countySeriesChart.xAxis()
 			.tickFormat(d3.format("d"))
@@ -90,6 +88,6 @@ console.log(groupYearCountyDamage.top(10))
 
 
 	d3.selectAll('.x text').attr('transform','rotate(35)').attr('dx','20');
-
+	d3.selectAll('legend text').attr('text','hello');
 	dc.redrawAll("seriesGroup");
 }

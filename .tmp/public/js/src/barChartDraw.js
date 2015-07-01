@@ -19,7 +19,7 @@ function barChartDraw(data){
 
 		allEventChart
 		.width(1350)
-		.height(150)
+		.height(265)
 		.x(d3.scale.linear().domain([1950,2015]))
 		.brushOn(true)
 		.dimension(eventDimension)
