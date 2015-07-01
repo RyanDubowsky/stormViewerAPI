@@ -17,7 +17,7 @@ function lineChartDraw(data){
 	data.forEach(function(curRow){
 		curRow.YEAR = +curRow.YEAR;
 		curRow.DAMAGE_PROPERTY = +curRow.DAMAGE_PROPERTY;
-		//curRow.CZ_FIPS = +curRow.CZ_FIPS;
+		curRow.CZ_NAME = curRow.CZ_NAME.toUpperCase();
 	})
 
 	finalData = data.filter(function(curEvent){

@@ -100,7 +100,7 @@ function mapDraw(data){
         content += '<table class="table">';
         content += '<tr><td>Property Damage</td><td>'+comma(d.properties.DAMAGE_PROPERTY)+'</td></tr>';
         content += '<tr><td>Crops Damage</td><td>'+d.properties.DAMAGE_CROPS+'</td></tr>';
-        content += '<tr><td>CZ Name</td><td>'+d.properties.CZ_NAME+'</td></tr>';
+        content += '<tr><td>CZ Name</td><td>'+d.properties.CZ_NAME.toUpperCase()+'</td></tr>';
         content += '<tr><td>Begin Date</td><td>'+d.properties.BEGIN_DATE_TIME.substr(0,9)+'</td></tr>';
         content += '<tr><td>Event ID</td><td>'+d.properties.EVENT_ID+'</td></tr>';
         content += '</table>';
@@ -115,7 +115,7 @@ function mapDraw(data){
     var markerOptions = function(d){
         var curRadius = radiusScale(d);
         var curOpacity = opacityScale(d);
-        var curColor = countyColorScale(d.properties.CZ_NAME);
+        var curColor = countyColorScale(d.properties.CZ_NAME.toUpperCase());
         return {radius:curRadius, fillOpacity:curOpacity, color:curColor, fillColor:curColor}
     }
 
