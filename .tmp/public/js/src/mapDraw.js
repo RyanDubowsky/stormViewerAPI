@@ -157,10 +157,60 @@ function mapDraw(data){
         })
 
         $('#barChart').on('mouseup',function(d,e){
-            map.removeLayer(stormLayer); 
-        })
+                map.removeLayer(stormLayer); 
+        })     
+
+$('#countyChart').on('mouseup',function(d,e){
+        
+        //var type = d3.selel
+
+        //console.log(d3.selectAll('.highlight'));
+        var curCounties = d3.selectAll('.highlight');
+
+//READ ME
+
+        //This accesses the county names of all highlighted things
+        //Attempting to only highlight 1 county, not all with that color
 
 
+        // console.log(curCounties)
+        // curCounties.each(function(item){
+        //     console.log(item.name);
+        // })
+
+
+
+
+
+
+        // if(type === 'All'){
+        
+        //     //Remove old storm layer, add new one with full dataset
+        //     map.removeLayer(stormLayer);
+        //     stormLayer = new L.GeoJSON(stormEvents,options);
+        //     map.addLayer(stormLayer);
+
+        
+        // }else{
+            
+        //     filteredEvents.features = stormEvents.features.filter(function(feat){
+        //         return feat.properties.EVENT_TYPE == type;
+        //     });
+
+        //     //Remove old layer, make a new one, add the new one
+        //     map.removeLayer(stormLayer);
+        //     stormLayer = new L.GeoJSON(filteredEvents,options);
+        //     map.addLayer(stormLayer);
+
+        //     //Filter events based on type, then redraw sidebar
+        //     sidebarEvents = locationEvents.filter(function(sideEvent){
+        //         return sideEvent.EVENT_TYPE == type;
+        //     });
+
+        // }
+        
+
+    })
 
     var stormLayer = new L.GeoJSON(stormEvents,options)
     map.addLayer(stormLayer);

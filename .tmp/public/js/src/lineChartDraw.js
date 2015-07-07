@@ -65,6 +65,7 @@ console.log(groupYearCountyDamage.top(10))
         .group(groupYearCountyDamage)
 		.x(d3.scale.linear().domain([1950,2015]))
         .brushOn(false)
+
 		.margins({ top: 10, left: 50, right: 30, bottom: 170 })    
 	    .seriesAccessor(function(d) {return d.key[1];})
 	    .keyAccessor(function(d) {return d.key[0];})
@@ -73,12 +74,12 @@ console.log(groupYearCountyDamage.top(10))
 	    .title(function(d){return "County: " + d.key[1] +"\n"+ d.key[0] + ": $" + comma(d.value)})
 	    .legend(dc.legend().x(25).y(130).itemHeight(7).gap(5).horizontal(1).legendWidth(1325).itemWidth(90));
 
+
 		countySeriesChart.xAxis()
 			.tickFormat(d3.format("d"))
 			.ticks(2015-1950)
 
 		countySeriesChart.render();
-
 
 
 
@@ -90,4 +91,17 @@ console.log(groupYearCountyDamage.top(10))
 	d3.selectAll('.x text').attr('transform','rotate(35)').attr('dx','20');
 	d3.selectAll('legend text').attr('text','hello');
 	dc.redrawAll("seriesGroup");
-}
+
+//READ ME
+//ATEMPTING TO HIGHLIGHT BY COUNTY NAME, NOT BY COLOR
+
+
+//d3.selectAll(".dc-legend-item").on("mouseover",function(d){countySeriesChart.legendHighlight(d);});//THIS IS WHERE MAP FILTER FUNCTION WILL GO});
+d3.selectAll(".dc-legend-item").on("mouseover",function(d){})
+d3.selectAll(".dc-legend-item").on("mouseout",function(d){})
+d3.selectAll(".dc-legend-item").on("click",function(d){
+	var demo = d3.select(this); 
+	console.log(demo[0][0])
+	console.log(countySeriesChart.seriesAccessor(demo[0][0]));
+})
+}//d3.select(this).classed('highlight',true)
