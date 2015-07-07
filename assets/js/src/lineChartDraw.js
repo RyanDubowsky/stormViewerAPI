@@ -95,13 +95,29 @@ console.log(groupYearCountyDamage.top(10))
 //READ ME
 //ATEMPTING TO HIGHLIGHT BY COUNTY NAME, NOT BY COLOR
 
+//Need to somehow select the single chart
+//Chart name is gathered from legend item click event
+//change that chart to highlight
+//change the rest to fade
 
-//d3.selectAll(".dc-legend-item").on("mouseover",function(d){countySeriesChart.legendHighlight(d);});//THIS IS WHERE MAP FILTER FUNCTION WILL GO});
-d3.selectAll(".dc-legend-item").on("mouseover",function(d){})
+//div countyChart
+	//svg width 1350
+		//g
+			//g class sub = XXXX
+				//g class = chart body
+					//g class = stack list
+						// g class = stack 0
+							//g class = line highlight (OR FADE)
+
+
+
+d3.selectAll(".dc-legend-item").on("mouseover",function(d){countySeriesChart.legendHighlight(d);});//THIS IS WHERE MAP FILTER FUNCTION WILL GO});
+//d3.selectAll(".dc-legend-item").on("mouseover",function(d){})
 d3.selectAll(".dc-legend-item").on("mouseout",function(d){})
 d3.selectAll(".dc-legend-item").on("click",function(d){
 	var demo = d3.select(this); 
 	console.log(demo[0][0])
-	console.log(countySeriesChart.seriesAccessor(demo[0][0]));
+	console.log(d);
+	//console.log(countySeriesChart.seriesAccessor(demo[0][0]));
 })
 }//d3.select(this).classed('highlight',true)
