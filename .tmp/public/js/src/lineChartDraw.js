@@ -111,13 +111,38 @@ console.log(groupYearCountyDamage.top(10))
 
 
 
-d3.selectAll(".dc-legend-item").on("mouseover",function(d){countySeriesChart.legendHighlight(d);});//THIS IS WHERE MAP FILTER FUNCTION WILL GO});
-//d3.selectAll(".dc-legend-item").on("mouseover",function(d){})
+//d3.selectAll(".dc-legend-item").on("mouseover",function(d){countySeriesChart.legendHighlight(d);});//THIS IS WHERE MAP FILTER FUNCTION WILL GO});
+d3.selectAll(".dc-legend-item").on("mouseover",function(d){})
 d3.selectAll(".dc-legend-item").on("mouseout",function(d){})
 d3.selectAll(".dc-legend-item").on("click",function(d){
-	var demo = d3.select(this); 
-	console.log(demo[0][0])
+	
+	var demo = countySeriesChart.selectAll('path').data();
+
+	// demo = demo;
+
+	// demo = demo.filter(function(i){
+	// 	return i.data.name == "ALBANY";
+	// })
+
+	demo = demo.filter(function(curItem){
+		return curItem != undefined;
+	})
+
+	demo = demo.filter(function(curItem){
+		return curItem.name == d.name;
+	})
+
+
 	console.log(d);
-	//console.log(countySeriesChart.seriesAccessor(demo[0][0]));
+	console.log(d.name);
+	console.log(demo);
+
+	//console.log(d3.select(d).selectAll('path.line, path.area')
+                //.classed('highlight', d))
+
+
+	// demo.select('path.line, path.area')
+	// 	.classed('highlight', d)
+
 })
 }//d3.select(this).classed('highlight',true)
