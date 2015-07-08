@@ -92,45 +92,18 @@ function lineChartDraw(data){
 	d3.selectAll('legend text').attr('text','hello');
 	dc.redrawAll("seriesGroup");
 
-	//READ ME
-	//ATEMPTING TO HIGHLIGHT BY COUNTY NAME, NOT BY COLOR
 
-	//Need to somehow select the single chart
-	//Chart name is gathered from legend item click event
-	//change that chart to highlight
-	//change the rest to fade
-
-	//div countyChart
-		//svg width 1350
-			//g
-				//g class sub = XXXX
-					//g class = chart body
-						//g class = stack list
-							// g class = stack 0
-								//g class = line highlight (OR FADE)
-
-
-
-	//d3.selectAll(".dc-legend-item").on("mouseover",function(d){countySeriesChart.legendHighlight(d);});//THIS IS WHERE MAP FILTER FUNCTION WILL GO});
 	d3.selectAll(".dc-legend-item").on("mouseover",function(d){})
 	d3.selectAll(".dc-legend-item").on("mouseout",function(d){})
 	d3.selectAll(".dc-legend-item").on("click",function(d){
-		
-		//var demo = countySeriesChart.selectAll('chart');
-
-		// demo = demo.filter(function(curItem){
-		// 	return curItem != undefined;
-		// })
-
-		// demo = demo.filter(function(curItem){
-		// 	return curItem.name == d.name;
-		// })
-
-
+		//If its already highlighted, reset the chart
+		//Attempting to allow to add/remove things NOT FUNCTIONAL ATM, CANNOT TOGGLE
 		if(d.chart.g().selectAll('path.line, path.area').classed("highlight")){
-			countySeriesChart.legendReset();	
+				countySeriesChart.legendReset();		
 		}
 		else{
+			//If not highlighted, fade out everything else
+			//Highlight this one
 			countySeriesChart.g().selectAll('path.line, path.area').classed("fadeout",true);
 			d.chart.g().selectAll('path.line, path.area').classed("highlight",true);
 		}
