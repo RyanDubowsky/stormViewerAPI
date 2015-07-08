@@ -148,68 +148,85 @@ function mapDraw(data){
     };
 
 
-        $('#select_event').on('click',function(d,e){
-                map.removeLayer(stormLayer);
+    $('#select_event').on('click',function(d,e){
+            map.removeLayer(stormLayer);
+    })
+
+    $('#select_state').on('click',function(d,e){
+            map.removeLayer(stormLayer);
+    })
+
+    $('#barChart').on('mouseup',function(d,e){
+            map.removeLayer(stormLayer); 
+    })     
+
+    function lineCountyfilter(curCounty,countyNames){
+
+        countyNames.forEach(function(item){
+            if(item.properties.CZ_NAME == curCounty){
+                return true;
+            }
         })
 
-        $('#select_state').on('click',function(d,e){
-                map.removeLayer(stormLayer);
+
+    }
+
+
+
+
+    function lineMapSync(){
+        var curCounties;
+        curCounties = d3.selectAll('.highlight').data();
+
+
+        var countyNames = [];
+
+
+        //console.log(curCounties)
+
+
+        curCounties.forEach(function(item){
+            countyNames.push(item.name);
         })
+        console.log(countyNames);
 
-        $('#barChart').on('mouseup',function(d,e){
-                map.removeLayer(stormLayer); 
-        })     
 
-$('#countyChart').on('mouseup',function(d,e){
+        if(countyNames.length == 0){
         
-        //var type = d3.selel
-
-        //console.log(d3.selectAll('.highlight'));
-        var curCounties = d3.selectAll('.highlight');
-
-//READ ME
-
-        //This accesses the county names of all highlighted things
-        //Attempting to only highlight 1 county, not all with that color
-
-
-        // console.log(curCounties)
-        // curCounties.each(function(item){
-        //     console.log(item.name);
-        // })
-
-
-
-
-
-
-        // if(type === 'All'){
-        
-        //     //Remove old storm layer, add new one with full dataset
-        //     map.removeLayer(stormLayer);
-        //     stormLayer = new L.GeoJSON(stormEvents,options);
-        //     map.addLayer(stormLayer);
+            //Remove old storm layer, add new one with full dataset
+            map.removeLayer(stormLayer);
+            stormLayer = new L.GeoJSON(stormEvents,options);
+            map.addLayer(stormLayer);
 
         
-        // }else{
-            
-        //     filteredEvents.features = stormEvents.features.filter(function(feat){
-        //         return feat.properties.EVENT_TYPE == type;
-        //     });
+        }else{
+            //console.log(stormEvents)
+            stormEvents.features.forEach(function(feat){
 
-        //     //Remove old layer, make a new one, add the new one
-        //     map.removeLayer(stormLayer);
-        //     stormLayer = new L.GeoJSON(filteredEvents,options);
-        //     map.addLayer(stormLayer);
+                countyNames.forEach(function(item){
 
-        //     //Filter events based on type, then redraw sidebar
-        //     sidebarEvents = locationEvents.filter(function(sideEvent){
-        //         return sideEvent.EVENT_TYPE == type;
-        //     });
+                    if(item == feat.properties.CZ_NAME){
+                                            //console.log(feat);
+                        filteredEvents.features.push(feat);
+                    }
 
-        // }
-        
+                })
 
+            });
+
+            console.log(filteredEvents);
+
+            //Remove old layer, make a new one, add the new one
+            map.removeLayer(stormLayer);
+            stormLayer = new L.GeoJSON(filteredEvents,options);
+            map.addLayer(stormLayer);
+
+
+        }
+    }
+
+    $('#countyChart').on('mouseup',function(d,e){
+        setTimeout(lineMapSync,100);
     })
 
     var stormLayer = new L.GeoJSON(stormEvents,options)
