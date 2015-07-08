@@ -32,12 +32,6 @@ function lineChartDraw(data){
 	var damageDim = countyCross.dimension(function(d){return d.DAMAGE_PROPERTY});
 	var countyDim = countyCross.dimension(function(d){return d.CZ_NAME});
 
-	// damageDim.filter([1000,Infinity]);
-
-
-
-	// groupByCounty = countyDim.group();
-
 	var dimensionCountyYear = countyCross.dimension(function(d){
 		return [d.YEAR,d.CZ_NAME]
 	})
@@ -46,9 +40,6 @@ function lineChartDraw(data){
 		return d.DAMAGE_PROPERTY;
 	});
 
-	// groupYearCountyDamage.forEach(function(dummy){
-	// 	console.log(dummy);
-	// })
 
 	console.log(groupYearCountyDamage.top(10))
 
@@ -60,12 +51,12 @@ function lineChartDraw(data){
         .yAxisLabel("Damage in USD")
 	    .elasticX(true)
 	    .elasticY(true)
-        //.renderHorizontalGridLines(true)
+        .renderHorizontalGridLines(true)
         .dimension(dimensionCountyYear,"year")
         .group(groupYearCountyDamage)
 		.x(d3.scale.linear().domain([1950,2015]))
         .brushOn(false)
-
+		.colors(d3.scale.category20c())
 		.margins({ top: 10, left: 50, right: 30, bottom: 170 })    
 	    .seriesAccessor(function(d) {return d.key[1];})
 	    .keyAccessor(function(d) {return d.key[0];})
@@ -81,17 +72,17 @@ function lineChartDraw(data){
 
 		countySeriesChart.render();
 
-
-
-
-	countySeriesChart.yAxis().tickFormat(function(d) { return damageAxisFormat(d).replace("G","B"); });
 	dc.renderAll("seriesGroup");
 
 
-	d3.selectAll('.x text').attr('transform','rotate(35)').attr('dx','20');
-	d3.selectAll('legend text').attr('text','hello');
-	dc.redrawAll("seriesGroup");
+	countySeriesChart.yAxis().tickFormat(function(d) { return damageAxisFormat(d).replace("G","B"); });
 
+
+
+	d3.selectAll('.x text').attr('transform','rotate(35)').attr('dx','20');
+
+
+	dc.renderAll("seriesGroup");
 
 	d3.selectAll(".dc-legend-item").on("mouseover",function(d){})
 	d3.selectAll(".dc-legend-item").on("mouseout",function(d){})

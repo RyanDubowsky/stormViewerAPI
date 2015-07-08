@@ -78,7 +78,7 @@ function mapDraw(data){
         }
     }
 
-    var countyColorScale = d3.scale.category20()
+    var countyColorScale = d3.scale.category20c()
 
 
   
@@ -160,20 +160,6 @@ function mapDraw(data){
             map.removeLayer(stormLayer); 
     })     
 
-    function lineCountyfilter(curCounty,countyNames){
-
-        countyNames.forEach(function(item){
-            if(item.properties.CZ_NAME == curCounty){
-                return true;
-            }
-        })
-
-
-    }
-
-
-
-
     function lineMapSync(){
         var curCounties;
         curCounties = d3.selectAll('.highlight').data();
@@ -181,47 +167,31 @@ function mapDraw(data){
 
         var countyNames = [];
 
-
-        //console.log(curCounties)
-
-
         curCounties.forEach(function(item){
             countyNames.push(item.name);
         })
-        console.log(countyNames);
+
 
 
         if(countyNames.length == 0){
-        
             //Remove old storm layer, add new one with full dataset
             map.removeLayer(stormLayer);
             stormLayer = new L.GeoJSON(stormEvents,options);
             map.addLayer(stormLayer);
-
-        
         }else{
-            //console.log(stormEvents)
+            filteredEvents.features = []
             stormEvents.features.forEach(function(feat){
-
                 countyNames.forEach(function(item){
-
                     if(item == feat.properties.CZ_NAME){
-                                            //console.log(feat);
                         filteredEvents.features.push(feat);
                     }
-
                 })
-
             });
-
-            console.log(filteredEvents);
 
             //Remove old layer, make a new one, add the new one
             map.removeLayer(stormLayer);
             stormLayer = new L.GeoJSON(filteredEvents,options);
             map.addLayer(stormLayer);
-
-
         }
     }
 
