@@ -178,8 +178,8 @@ function mapDraw(data){
             map.removeLayer(stormLayer);
             stormLayer = new L.GeoJSON(stormEvents,options);
             map.addLayer(stormLayer);
+
         }else{
-            filteredEvents.features = []
             stormEvents.features.forEach(function(feat){
                 countyNames.forEach(function(item){
                     if(item == feat.properties.CZ_NAME){
@@ -193,6 +193,7 @@ function mapDraw(data){
             stormLayer = new L.GeoJSON(filteredEvents,options);
             map.addLayer(stormLayer);
         }
+        filteredEvents.features = []
     }
 
     $('#countyChart').on('mouseup',function(d,e){

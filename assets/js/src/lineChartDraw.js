@@ -82,7 +82,7 @@ function lineChartDraw(data){
 	d3.selectAll('.x text').attr('transform','rotate(35)').attr('dx','20');
 
 
-	dc.renderAll("seriesGroup");
+	dc.redrawAll("seriesGroup");
 
 	d3.selectAll(".dc-legend-item").on("mouseover",function(d){})
 	d3.selectAll(".dc-legend-item").on("mouseout",function(d){})
