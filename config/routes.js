@@ -37,6 +37,8 @@ module.exports.routes = {
   },
   '/': 'StormsController.index',
 
+  '/storms/clor': 'StormsController.clorIndex',
+  
   '/storms/barChart/:state/:type':{
     controller: 'StormsController',
     action:'barChart',

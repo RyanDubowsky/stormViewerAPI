@@ -45,7 +45,9 @@ var jsFilesToInject = [
   'js/src/lineChartDraw.js',
   'js/src/lineChartQuery.js',
   'js/src/mapDraw.js',
-  'js/src/index.js'
+  'data/us-states.js',
+  //'js/src/index.js',
+  'js/src/clorIndex.js'
 
 
 

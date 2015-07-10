@@ -9,6 +9,9 @@ module.exports = {
 	index: function(req,res){
 		res.view();
 	},
+	clorIndex: function(req,res){
+		res.view();
+	},
 	barChart:function(req,res){
 		var state = req.param('state');
 		var type  = req.param('type');
