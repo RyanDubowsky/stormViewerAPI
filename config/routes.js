@@ -59,7 +59,14 @@ module.exports.routes = {
     cors:{
       origin:'*'
     }
-  }  
+  },
+  '/storms/clorMap/:type/:startYear/:endYear':{
+    controller: 'StormsController',
+    action:'clorMap',
+    cors:{
+      origin:'*'
+    }
+  }
 
 
   /***************************************************************************
