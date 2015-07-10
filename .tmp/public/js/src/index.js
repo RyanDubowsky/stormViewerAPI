@@ -130,7 +130,10 @@ var sidebar = L.control.sidebar('sidebar', {
         setTimeout(syncMap(syncMapDraw),250);
     })
 
+    $('#countyChart').on('mouseup',function(d,e){
 
+        //lineMapSync.apply(mapDraw);
+    })
 
 function syncBarChart(callback){
     //GET THE DATA

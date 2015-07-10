@@ -158,12 +158,15 @@ function mapDraw(data){
             map.removeLayer(stormLayer); 
     })     
 
-    function lineMapSync(){
+
+    lineMapSync = function(){
+
         var curCounties;
         curCounties = d3.selectAll('.highlight').data();
         console.log("curcounties",curCounties)
 
         var countyNames = [];
+        filteredEvents.features = [];
 
         curCounties.forEach(function(item){
             countyNames.push(item.name);
@@ -174,6 +177,7 @@ function mapDraw(data){
         if(countyNames.length == 0){
             //Remove old storm layer, add new one with full dataset
             map.removeLayer(stormLayer);
+            stormLayer = null;
             stormLayer = new L.GeoJSON(stormEvents,options);
             map.addLayer(stormLayer);
 
@@ -188,6 +192,7 @@ function mapDraw(data){
 
             //Remove old layer, make a new one, add the new one
             map.removeLayer(stormLayer);
+            stormLayer = null;
             stormLayer = new L.GeoJSON(filteredEvents,options);
             map.addLayer(stormLayer);
         }
