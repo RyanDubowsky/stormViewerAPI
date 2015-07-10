@@ -1,12 +1,46 @@
 function mapDraw(data){
+
+    //Create two sets of events, one filtered, one total
     locationEvents = data;
     var stormEvents = {type:'FeatureCollection',features:[]};
     var filteredEvents = {type:'FeatureCollection',features:[]};
-    var allEventTypes = ['Hail','Thunderstorm Wind','Flood','Flash Flood','Lightning','Heavy Rain','Tornado'];
-    var hexColorCodes = ['#3088f0','#4493f1','#599ff3','#6eabf4','#82b7f6','#97c3f7','#accff9'];
+
+    //Formatting and Scales   
+    var thousands = d3.format(".3f");
+    var millions = d3.format(".6f");
+    var billions = d3.format(".9f");
     var comma = d3.format(",");
 
+    var damageRadiusScale = d3.scale.sqrt()
+        .domain([0,100000000])
+        .range([5,35]);
 
+    var opaScale = d3.scale.sqrt()
+        .domain([3,30])
+        .range([.3, .15]);
+    
+    var radiusScale = function(d){
+        if(d.properties.DAMAGE_PROPERTY > 0){
+            return damageRadiusScale(d.properties.DAMAGE_PROPERTY);
+        }
+        else{
+            //Minimum radius
+            return 3
+        }
+    }
+
+    var countyColorScale = d3.scale.category20();
+
+    var opacityScale = function(d){
+        return opaScale(radiusScale(d));
+    }
+
+    var latLng = function(d){
+        return [d.BEGIN_LAT,d.BEGIN_LON];
+    }
+
+    //Create points on the map according to lat/long
+    //Also null checks
     stormEvents.features = locationEvents.map(function(stormevent){
 
         if(isNaN(+stormevent.BEGIN_LON) || isNaN(+stormevent.BEGIN_LAT)){
@@ -19,9 +53,7 @@ function mapDraw(data){
                   coordinates:[+0,+0]
                 }
             }
-            //return
         }else{
-
             return {
                 type:"Feature",
                 properties:stormevent,
@@ -33,16 +65,15 @@ function mapDraw(data){
         }
     });
 
-
+    //Set event type for each event
     var event_types = [];
     stormEvents.features.forEach(function(se){
-        //console.log(se.properties.EVENT_TYPE);
         if(event_types.indexOf(se.properties.EVENT_TYPE) < 0 ){
             event_types.push(se.properties.EVENT_TYPE);
         }
     });
 
-
+    //Set damages for each event
     var property_damages = [];
     stormEvents.features.forEach(function(se){
         if(property_damages.indexOf(se.properties.DAMAGE_PROPERTY) < 0 ){
@@ -50,50 +81,13 @@ function mapDraw(data){
         }
     });
 
-
-    
-    var thousands = d3.format(".3f");
-    var millions = d3.format(".6f");
-    var billions = d3.format(".9f");
-
-    var comma = d3.format(",");
-
-    var damageRadiusScale = d3.scale.sqrt()
-        .domain([0,100000000])
-        .range([5,35]);
-
-    var opaScale = d3.scale.sqrt()
-        .domain([3,30])
-        .range([.3, .15]);
-    
-    var radiusScale = function(d){
-        //console.log(d.properties.DAMAGE_PROPERTY.substr(0,d.properties.DAMAGE_PROPERTY.length-1));
-        if(d.properties.DAMAGE_PROPERTY > 0){
-            return damageRadiusScale(d.properties.DAMAGE_PROPERTY);
-        }
-        else{
-            return 3
-        }
+    //Parameters for drawing the popups
+    var popupOptions = function(d){
+        return {maxWidth:500};
     }
 
-    var countyColorScale = d3.scale.category20()
-
-
-  
-
-    var opacityScale = function(d){
-        return opaScale(radiusScale(d));
-    }
-
-
-
-    var latLng = function(d){
-        return [d.BEGIN_LAT,d.BEGIN_LON];
-    }
-
-
+    //Set content for hoverover popup over dots
     var popupContent = function(d){
-
         var content = '<h4>'+d.properties.EVENT_TYPE+'</h4>';
         content += '<table class="table">';
         content += '<tr><td>Property Damage</td><td>'+comma(d.properties.DAMAGE_PROPERTY)+'</td></tr>';
@@ -102,14 +96,11 @@ function mapDraw(data){
         content += '<tr><td>Begin Date</td><td>'+d.properties.BEGIN_DATE_TIME.substr(0,9)+'</td></tr>';
         content += '<tr><td>Event ID</td><td>'+d.properties.EVENT_ID+'</td></tr>';
         content += '</table>';
-
         return content;
     }
 
-    var popupOptions = function(d){
-        return {maxWidth:500};
-    }
 
+    //Parameters for drawing the dots
     var markerOptions = function(d){
         var curRadius = radiusScale(d);
         var curOpacity = opacityScale(d);
@@ -117,10 +108,7 @@ function mapDraw(data){
         return {radius:curRadius, fillOpacity:curOpacity, color:curColor, fillColor:curColor}
     }
 
-
-
-
-
+    //Adding dots to layer
     var options = {
         layerId:'storms',
         classed:'storm_event',
@@ -129,7 +117,6 @@ function mapDraw(data){
             'r': radiusScale
         },
         pointToLayer: function(d,latLng) {
-
             var curCircle = new L.CircleMarker(latLng, markerOptions(d))
                                  .bindPopup(popupContent(d),popupOptions(d));
 
@@ -145,7 +132,7 @@ function mapDraw(data){
          }
     };
 
-
+    //Removing layer on events
     $('#select_event').on('click',function(d,e){
             map.removeLayer(stormLayer);
     })
@@ -158,22 +145,25 @@ function mapDraw(data){
             map.removeLayer(stormLayer); 
     })     
 
-
+    //Updating map depending on line chart changes
     lineMapSync = function(){
 
         var curCounties;
+        //Get the data of objects(lines) that are highlighted
         curCounties = d3.selectAll('.highlight').data();
-        console.log("curcounties",curCounties)
 
+        //Reset county array and filtered evens array
         var countyNames = [];
         filteredEvents.features = [];
 
+        //Make array of names of counties
         curCounties.forEach(function(item){
             countyNames.push(item.name);
         })
 
 
-
+        //If there are no specific county names, we want all of them
+        //Reset the map and draw it from the original data
         if(countyNames.length == 0){
             //Remove old storm layer, add new one with full dataset
             map.removeLayer(stormLayer);
@@ -181,7 +171,9 @@ function mapDraw(data){
             stormLayer = new L.GeoJSON(stormEvents,options);
             map.addLayer(stormLayer);
 
-        }else{
+        }
+        //Otherwise, filter full data for ONLY highlighted counties
+        else{
             stormEvents.features.forEach(function(feat){
                 countyNames.forEach(function(item){
                     if(item == feat.properties.CZ_NAME){
@@ -199,12 +191,16 @@ function mapDraw(data){
 
     }
 
+    //Event listener for line chart changes
     $('#countyChart').on('mouseup',function(d,e){
         map.removeLayer(stormLayer);
         setTimeout(lineMapSync,100);
     })
 
+    //Create layer
     var stormLayer = new L.GeoJSON(stormEvents,options)
+
+    //Add layer
     map.addLayer(stormLayer);
 
 }

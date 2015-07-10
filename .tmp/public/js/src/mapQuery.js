@@ -1,14 +1,15 @@
 function mapQuery(params,callback){
 	
-	var mapData; //Proccesses damage numbers so they can play nice with rest of app
+	var mapData; 
 
     var url = "/storms/mapEvents/"+params.state+"/"+params.eType+"/"+params.startYear+"/"+params.endYear;
-    console.log("URL in map query function:",url);
 
+    //Proccesses damage numbers so they can play nice with rest of app
     var damagePopScale = function(damage){
         var realDamage;
 
         if(damage.substr(0,4) == "0.00"){
+            //Null check
             return 0;
         }
         else if(damage.substr(-1) == 'B'){
@@ -25,10 +26,8 @@ function mapQuery(params,callback){
         }
         else if(damage.substr(-1) == 'K'){
             //Thousands Format
-            //console.log(damage);
             realDamage = thousandsFormat(damage.substr(0,damage.length-1));
             realDamage = realDamage.replace(".","");
-            //console.log(realDamage);
             return realDamage;
         }
         else{   
@@ -36,7 +35,7 @@ function mapQuery(params,callback){
         }
     }
 
-
+    // Query the DB and modify some output
     d3.json(url,function(err,dataFromServer){
         mapData = dataFromServer.state.rows;
 
@@ -46,7 +45,7 @@ function mapQuery(params,callback){
             event.DAMAGE_CROPS = damagePopScale(event.DAMAGE_CROPS);
         }) 
 
-        //console.log("query log of map data",mapData);
+        //Draw the map
    		callback(mapData);
     });// end d3.json
 

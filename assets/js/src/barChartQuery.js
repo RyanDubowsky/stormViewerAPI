@@ -7,23 +7,19 @@ function barChartQuery(params,callback){
 
     var url = "/storms/barChart/"+params.state+"/"+params.eType
 
-
-    console.log("URL in chartQuery function:",url);
-
-
-
-
+    //Queries the DB for data
+    //Does modification and post-processing to prepare for charting
     d3.json(url,function(err,dataFromServer){
         mapData = dataFromServer.state.rows;
+
+        //Filter out null years
         locationEvents = mapData.filter(function(event){
             return event.YEAR != null;
         })
 
-
-
-
         var curYear = 0;
 
+        //Tallies events per year, if all event types are to be included
         if(params.eType=="All"){
             for(var i=1950; i<2015; i++){
                 locationEvents.forEach(function(entry){
@@ -34,7 +30,9 @@ function barChartQuery(params,callback){
                 });
                 talliedEvents.push({year:i,count:curYear});
             }
-        }else{
+        }
+        //Otherwise, already in correct buckets, just filter for type
+        else{
             //Filters for type
             barEvents = locationEvents.filter(function(barEvent){
                 return barEvent.EVENT_TYPE == params.eType;
@@ -44,22 +42,13 @@ function barChartQuery(params,callback){
                 finalBarEvents.push({year:bEvent.YEAR,count:bEvent.count});
             })
         }
-
-
-    if(params.eType == "All"){
-    	//console.log("query log of tallied chart events",talliedEvents);
-    	callback(talliedEvents);
-    }
-    else{
-    	//console.log("query log of one type chart events ",finalBarEvents);
-    	callback(finalBarEvents);
-    }
+        //Send appropriate event array depending on parameter
+        if(params.eType == "All"){
+        	callback(talliedEvents);
+        }
+        else{
+        	callback(finalBarEvents);
+        }
 
     });// end d3.json
-
-
-
-
-
-	//Returns Json of chart Data
 }
