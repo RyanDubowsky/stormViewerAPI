@@ -131,12 +131,6 @@ var sidebar = L.control.sidebar('sidebar', {
     })
 
 
-        // map.on('layeradd',function(d,e){
-        //     console.log("hi");
-        //     setTimeout(syncBarChart(syncBarChartDraw),400);
-        // })
-
-
 
 function syncBarChart(callback){
     //GET THE DATA

@@ -28,9 +28,7 @@ function lineChartDraw(data){
 	var countyCross = crossfilter(finalData)
 	var	countySeriesChart = dc.seriesChart("#countyChart","seriesGroup")
 
-	var	yearDim = countyCross.dimension(function(d){return d.YEAR });
-	var damageDim = countyCross.dimension(function(d){return d.DAMAGE_PROPERTY});
-	var countyDim = countyCross.dimension(function(d){return d.CZ_NAME});
+
 
 	var dimensionCountyYear = countyCross.dimension(function(d){
 		return [d.YEAR,d.CZ_NAME]
@@ -41,7 +39,7 @@ function lineChartDraw(data){
 	});
 
 
-	console.log(groupYearCountyDamage.top(10))
+	//console.log(groupYearCountyDamage.top(10))
 
 
     countySeriesChart
@@ -56,7 +54,7 @@ function lineChartDraw(data){
         .group(groupYearCountyDamage)
 		.x(d3.scale.linear().domain([1950,2015]))
         .brushOn(false)
-		.colors(d3.scale.category20c())
+		.colors(d3.scale.category20())
 		.margins({ top: 10, left: 50, right: 30, bottom: 170 })    
 	    .seriesAccessor(function(d) {return d.key[1];})
 	    .keyAccessor(function(d) {return d.key[0];})
@@ -90,7 +88,7 @@ function lineChartDraw(data){
 		//If its already highlighted, reset the chart
 		//Attempting to allow to add/remove things NOT FUNCTIONAL ATM, CANNOT TOGGLE
 		if(d.chart.g().selectAll('path.line, path.area').classed("highlight")){
-				countySeriesChart.legendReset();		
+				countySeriesChart.legendReset();
 		}
 		else{
 			//If not highlighted, fade out everything else

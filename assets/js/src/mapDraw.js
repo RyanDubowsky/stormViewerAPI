@@ -6,7 +6,6 @@ function mapDraw(data){
     var hexColorCodes = ['#3088f0','#4493f1','#599ff3','#6eabf4','#82b7f6','#97c3f7','#accff9'];
     var comma = d3.format(",");
 
-    //console.log(data);
 
     stormEvents.features = locationEvents.map(function(stormevent){
 
@@ -43,7 +42,6 @@ function mapDraw(data){
         }
     });
 
-    console.log(event_types);
 
     var property_damages = [];
     stormEvents.features.forEach(function(se){
@@ -78,7 +76,7 @@ function mapDraw(data){
         }
     }
 
-    var countyColorScale = d3.scale.category20c()
+    var countyColorScale = d3.scale.category20()
 
 
   
@@ -163,7 +161,7 @@ function mapDraw(data){
     function lineMapSync(){
         var curCounties;
         curCounties = d3.selectAll('.highlight').data();
-
+        console.log("curcounties",curCounties)
 
         var countyNames = [];
 
@@ -193,10 +191,11 @@ function mapDraw(data){
             stormLayer = new L.GeoJSON(filteredEvents,options);
             map.addLayer(stormLayer);
         }
-        filteredEvents.features = []
+
     }
 
     $('#countyChart').on('mouseup',function(d,e){
+        map.removeLayer(stormLayer);
         setTimeout(lineMapSync,100);
     })
 
