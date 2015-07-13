@@ -3,6 +3,8 @@ function clorQuery(params,callback){
 	var url = "/storms/clorMap/"+params.eType+"/"+params.startYear+"/"+params.endYear;
 	console.log("URL in clorQuery",url);
 
+        eventTypeArray=["Hail","Thunderstorm Wind","Flood","Flash Flood","Lightning","Heavy Rain","Tornado"];
+
 	//Scale to make numbers look normal
     var damagePopScale = function(damage){
         var realDamage;
@@ -32,7 +34,7 @@ function clorQuery(params,callback){
             //Should not reach this
         }
     }
-	var stateSumArray=[]
+	var stateEventSumArray=[]
 	var unique = true
 	d3.json(url,function(err,dataFromServer){
         mapData = dataFromServer.state.rows;
@@ -47,27 +49,39 @@ function clorQuery(params,callback){
         })
 
         //Now sum per state
+        //Going to sum per event type, then sum per state in draw function
         usStates.forEach(function(state){
-        	stateSumArray.push({state:state.name,damage:0});
+        	eventTypeArray.forEach(function(eType){
+        		stateEventSumArray.push({state:state.name,type:eType,damage:0});
+        	})
+
         })
 
 
-        stateSumArray.forEach(function(state){
+        stateEventSumArray.forEach(function(stateEvent){
 
         	locationEvents.forEach(function(item){
-        		if(item.STATE == state.state){
+        		if(item.STATE == stateEvent.state && item.EVENT_TYPE == stateEvent.type){
         			if(!isNaN(item.DAMAGE_PROPERTY)){
-        				state.damage = state.damage + item.DAMAGE_PROPERTY;
+        				stateEvent.damage = stateEvent.damage + item.DAMAGE_PROPERTY;
         			}
         		}
         	})
+
         })
 
 
+        //Sum per State and Event Type combo
+
+
+
+        //console.log(locationEvents)
+        //console.log(eventTypeArray);
+        //console.log(stateEventSumArray);
 
 
         //console.log("Data in clorMap query", stateSumArray)
-		callback(stateSumArray)
+		callback(stateEventSumArray)
     });// end d3.json
 
 }

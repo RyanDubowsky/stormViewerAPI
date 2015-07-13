@@ -40,18 +40,5 @@ function syncClorMapDraw(params){
 }
 
 
-    // Uppdates map and charts when event type changes
-    $('#select_event').on('click',function(d,e){
-        var type = $(this).val();
-
-
-        clorMapParams.eType = type;
-
-
-
-        //Redraw map
-        syncClorMap(syncClorMapDraw);
-
-    })
 
 syncClorMap(syncClorMapDraw);

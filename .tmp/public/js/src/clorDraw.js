@@ -1,4 +1,4 @@
-function clorDraw(data){
+function clorDraw(queryData){
 	var geojson;
 
 
@@ -9,7 +9,7 @@ function clorDraw(data){
         .range([0,1200]);
     var comma = d3.format(",");
 
-console.log(data)
+//console.log(queryData)
 
 
 function getColor(d) {
@@ -23,21 +23,28 @@ return d > 100000000000 ? '#800026' :
                   '#FFEDA0';
 }
 
-
+//Get the lat/long and density object
 newStatesData = statesData;
 
+	
+
+var filteredEvents;
 
 
 newStatesData.features.forEach(function(state){
-
-	data.forEach(function(curState){
+				state.properties.density = 0;
+	queryData.forEach(function(curState){
 		if (curState.state == state.properties.name.toUpperCase()){
-				state.properties.density = curState.damage
+				state.properties.density = state.properties.density + curState.damage
 		}
 	})
-
+	state.properties.density = Math.round(state.properties.density);
 })
-console.log(newStatesData)
+
+
+
+
+
 
 function style(feature) {
     return {
@@ -118,6 +125,62 @@ legend.onAdd = function (map) {
 };
 
 
+    // Uppdates map and charts when event type changes
+    $('#select_event').on('click',function(d,e){
+        var type = $(this).val();
+
+        //queryData has type/state combo
+        //If we want a specific type, make a new collection with ONLY that type
+
+        //if type == 'All', reset to original
+        if(type == 'All'){
+            //Remove old storm layer, add new one with full dataset
+
+            map.removeLayer(geojson);
+
+			newStatesData.features.forEach(function(state){
+				state.properties.density = 0;
+				queryData.forEach(function(curState){
+					if (curState.state == state.properties.name.toUpperCase()){
+							state.properties.density = state.properties.density + curState.damage
+					}
+				})
+				state.properties.density = Math.round(state.properties.density);
+			})
+
+            console.log("Original all events per state data",newStatesData)
+
+			geojson = L.geoJson(newStatesData, {
+			    style: style,
+			    onEachFeature: onEachFeature
+			}).addTo(map);
+			info.update();
+        }
+        //Otherwise, filter for desired event type
+        //Scale/legend IS GOING TO BE MESSED UP
+        else{
+            newStatesData = statesData;
+        	newStatesData.features.forEach(function(state){
+				state.properties.density = 0;
+				queryData.forEach(function(curState){
+					if (curState.state == state.properties.name.toUpperCase() && curState.type == type){
+							state.properties.density = curState.damage
+					}
+				})
+				state.properties.density = Math.round(state.properties.density);
+
+			})
+        	console.log("Event Filtered Events",newStatesData);
+            //Remove old layer, make a new one, add the new one
+            map.removeLayer(geojson);
+			geojson = L.geoJson(newStatesData, {
+			    style: style,
+			    onEachFeature: onEachFeature
+			}).addTo(map);
+			info.update();
+        }
+
+    })
 
 
 
