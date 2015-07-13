@@ -214,9 +214,9 @@ geojson = L.geoJson(newStatesData, {
 //Slider for year select
 
 
-var margin = {top: 50, right: 100, bottom: 50, left: 225},
+var margin = {top: 20, right: 100, bottom: 50, left: 225},
     width = 1250 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom-125;
+    height = 250 - margin.top - margin.bottom-160;
 
 var timeScale = d3.scale.linear()
   .domain([1950, 2015])
@@ -237,7 +237,7 @@ var y = d3.random.normal(height / 2, height / 2);
 var brush = d3.svg.brush()
     .x(timeScale)
     .extent([startingValue, endingValue])
-   .on("brushstart", brushstart)
+   	.on("brushstart", brushstart)
     .on("brush", brushmove)
     .on("brushend", brushend);
 
@@ -258,12 +258,7 @@ svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.svg.axis().scale(timeScale).orient("bottom").tickSize(5));
 
-// var circle = svg.append("g").selectAll("text")
-//     .data(data)
-//     .enter().append("text").text("working");
     
- 
-
 var brushg = svg.append("g")
     .attr("class", "brush")
     .call(brush);
@@ -285,8 +280,6 @@ function brushstart() {
 }
 
 function brushmove() {
-
-  //circle.classed("selected", function(d) { return s[0] <= d && d <= s[1]; });
 }
 
 function brushend() {
@@ -297,7 +290,7 @@ function brushend() {
 		brush.extent([Math.round(s[1]),Math.round(s[1]-15)]) (d3.select(this));
 	}
 	else{
-		brush.extent([Math.round(s[1]),Math.round(s[1]-15)])(d3.select(this));
+		brush.extent([Math.round(s[1]),Math.round(s[0])])(d3.select(this));
 	}
 	s = brush.extent();
     document.getElementById("year_display").innerHTML = "Year(s) displayed: " + Math.round(s[1]) + "-" + Math.round(s[0]);

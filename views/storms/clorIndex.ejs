@@ -4,75 +4,77 @@
         height:100%;
         margin:0;
     }
-        #map{
+    #map{
+        position:absolute;
+        top:0;
         width:100%;
-        height:90%;
+        height:80%;
         z-index:2002;
     }
     #sliderDiv{
         position:absolute;
-        width:95%:
-        height:15%
-        bottom:10px;
+        bottom:0;
+        width:95%;
+        height:20%;
         background:white;
         text-align:center;
-
+        z-index:2003;
     }
-        .info {
-            padding: 6px 8px;
-            font: 14px/16px Arial, Helvetica, sans-serif;
-            background: white;
-            background: rgba(255,255,255,0.8);
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            border-radius: 5px;
-        }
-        .info h4 {
-            margin: 0 0 5px;
-            color: #777;
-        }
+    .info {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+    }
+    .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
 
-        .legend {
-            text-align: left;
-            line-height: 18px;
-            color: #555;
-        }
-        .legend i {
-            width: 18px;
-            height: 18px;
-            float: left;
-            margin-right: 8px;
-            opacity: 0.7;
-        }
-            #sidebar{
-        width:320px;
-        height:150px;
+    .legend {
+        text-align: left;
+        line-height: 18px;
+        color: #555;
+    }
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+    #sidebar{
+    width:320px;
+    height:150px;
     }
 
     .axis {
-  fill: gray;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
+        fill: gray;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
 
-.axis .halo {
-  stroke: gray;
-  stroke-width: 4px;
-  stroke-linecap: round;
-}
+    .axis .halo {
+      stroke: gray;
+      stroke-width: 4px;
+      stroke-linecap: round;
+    }
 
-.slider .handle path {
-  stroke: white;
-  stroke-width: 3px;
-  stroke-linecap: round;
-  pointer-events: none;
-}
+    .slider .handle path {
+      stroke: white;
+      stroke-width: 3px;
+      stroke-linecap: round;
+      pointer-events: none;
+    }
 
-.slider .handle text {
-  fill: white;
-  text-align: center;
-  font-size: 18px;
-}
+    .slider .handle text {
+      fill: white;
+      text-align: center;
+      font-size: 18px;
+    }
 </style>
 
 <body>
@@ -98,8 +100,11 @@
         </div>
     </div>
     <div id="map">
-        </div>
-        <div id="sliderDiv">
+    </div>
+    <div id="sliderDiv">
+    <br>
+        <h4>Slide to select which years to display</h4>
+        <h6>Note: A maximum of fifteen years can be displayed at once </h6>
     </div>
 
 </body>
