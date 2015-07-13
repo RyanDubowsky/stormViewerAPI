@@ -218,6 +218,7 @@ $('#yearButton').on('click',function(d,e){
 
 		brush.extent([startYear,endYear]);
     	svg.select(".brush").call(brush);
+    	document.getElementById("year_display").innerHTML = "Year(s) displayed: " + startYear + "-" + endYear;
 
 		clorMapParams.startYear = startYear;
 		clorMapParams.endYear = endYear;
@@ -337,6 +338,9 @@ function brushend() {
 	}
 	s = brush.extent();
     document.getElementById("year_display").innerHTML = "Year(s) displayed: " + Math.round(s[1]) + "-" + Math.round(s[0]);
+
+	$('#startYear').val(Math.round(s[1]))
+	$('#endYear').val(Math.round(s[0]))
 
     clorMapParams.startYear = Math.round(s[1]);
     clorMapParams.endYear = Math.round(s[0]);
