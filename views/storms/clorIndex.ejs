@@ -15,7 +15,7 @@
         position:absolute;
         bottom:0;
         width:95%;
-        height:20%;
+        height:22%;
         background:white;
         text-align:center;
         z-index:2003;
@@ -32,7 +32,10 @@
         margin: 0 0 5px;
         color: #777;
     }
-
+.leaflet-sidebar{
+    width:320px;
+    height:150px;
+}
     .legend {
         text-align: left;
         line-height: 18px;
@@ -75,6 +78,10 @@
       text-align: center;
       font-size: 18px;
     }
+    #yearInput{
+    position:absolute;
+    top:0;
+    }
 </style>
 
 <body>
@@ -103,6 +110,18 @@
     </div>
     <div id="sliderDiv">
     <br>
+    <div id="yearInput" style="float:left ">
+        <h6> Manually input a year range </h6>
+        <p id="error" style="color:red"></p>
+        <br>
+        Start Year: <input type="text" id="startYear"/>
+        <br>
+        <br>
+        End Year: <input type="text" id="endYear"/>
+        <br>
+        <br>
+        <button type="button" id="yearButton"> Submit </button>
+    </div>
         <h4>Slide to select which years to display</h4>
         <h6>Note: A maximum of fifteen years can be displayed at once </h6>
     </div>

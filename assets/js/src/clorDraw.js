@@ -188,6 +188,49 @@ $('#select_event').on('click',function(d,e){
 })
 
 
+$('#yearButton').on('click',function(d,e){
+	console.log("onyong")
+
+	var startYear = +$('#startYear').val()
+	var endYear = +$('#endYear').val()
+
+	console.log(startYear,endYear);
+
+	if(startYear < 1950 || startYear > 2014){
+		console.log("start year eror")
+    	document.getElementById("error").innerHTML = "Start Year out of Bounds";
+	}
+	else if(endYear < 1950 || startYear > 2014){
+		console.log("end year eror")
+    	document.getElementById("error").innerHTML = "End Year out of Bounds";
+	}
+	else if(startYear > endYear){
+		console.log("start/end year is in wrong order")
+    	document.getElementById("error").innerHTML = "Start Year is after End Year";
+	}
+	else if(endYear-startYear > 15){
+		console.log("year range too big")
+    	document.getElementById("error").innerHTML = "Year Range greater than 15";
+	}
+	else{
+		console.log("no errors")
+    	document.getElementById("error").innerHTML = " ";
+
+		brush.extent([startYear,endYear]);
+    	svg.select(".brush").call(brush);
+
+		clorMapParams.startYear = startYear;
+		clorMapParams.endYear = endYear;
+		clorQuery(clorMapParams,yearSelect);
+}
+
+
+
+
+
+})
+
+
 
 function yearSelect(newQueryData){
 	//console.log(newQueryData);
@@ -214,9 +257,9 @@ geojson = L.geoJson(newStatesData, {
 //Slider for year select
 
 
-var margin = {top: 20, right: 100, bottom: 50, left: 225},
+var margin = {top: 0, right: 100, bottom: 90, left: 225},
     width = 1250 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom-160;
+    height = 250 - margin.top - margin.bottom-150;
 
 var timeScale = d3.scale.linear()
   .domain([1950, 2015])
@@ -256,7 +299,7 @@ var svg = d3.select("#sliderDiv").append("svg")
 svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
-    .call(d3.svg.axis().scale(timeScale).orient("bottom").tickSize(5));
+    .call(d3.svg.axis().scale(timeScale).orient("bottom").tickFormat(d3.format("")).tickSize(5));
 
     
 var brushg = svg.append("g")
