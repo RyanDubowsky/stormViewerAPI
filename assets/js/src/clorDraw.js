@@ -1,7 +1,7 @@
 function clorDraw(queryData){
 	var geojson;
 
-
+	var clorMapParams = {eType:"All",startYear:"2000",endYear:"2015"};
 
 
     var damageDensity = d3.scale.sqrt()
@@ -125,63 +125,78 @@ legend.onAdd = function (map) {
 };
 
 
-    // Uppdates map and charts when event type changes
-    $('#select_event').on('click',function(d,e){
-        var type = $(this).val();
 
-        //queryData has type/state combo
-        //If we want a specific type, make a new collection with ONLY that type
 
-        //if type == 'All', reset to original
-        if(type == 'All'){
-            //Remove old storm layer, add new one with full dataset
+function updateMap(){
+    var type = $('#select_event').val()
 
-            map.removeLayer(geojson);
+    //queryData has type/state combo
+    //If we want a specific type, make a new collection with ONLY that type
 
-			newStatesData.features.forEach(function(state){
-				state.properties.density = 0;
-				queryData.forEach(function(curState){
-					if (curState.state == state.properties.name.toUpperCase()){
-							state.properties.density = state.properties.density + curState.damage
-					}
-				})
-				state.properties.density = Math.round(state.properties.density);
+    //if type == 'All', reset to original
+    if(type == 'All'){
+        //Remove old storm layer, add new one with full dataset
+
+        map.removeLayer(geojson);
+
+		newStatesData.features.forEach(function(state){
+			state.properties.density = 0;
+			queryData.forEach(function(curState){
+				if (curState.state == state.properties.name.toUpperCase()){
+						state.properties.density = state.properties.density + curState.damage
+				}
 			})
+			state.properties.density = Math.round(state.properties.density);
+		})
 
-            console.log("Original all events per state data",newStatesData)
+        console.log("Original all events per state data",newStatesData)
 
-			geojson = L.geoJson(newStatesData, {
-			    style: style,
-			    onEachFeature: onEachFeature
-			}).addTo(map);
-			info.update();
-        }
-        //Otherwise, filter for desired event type
-        //Scale/legend IS GOING TO BE MESSED UP
-        else{
-            newStatesData = statesData;
-        	newStatesData.features.forEach(function(state){
-				state.properties.density = 0;
-				queryData.forEach(function(curState){
-					if (curState.state == state.properties.name.toUpperCase() && curState.type == type){
-							state.properties.density = curState.damage
-					}
-				})
-				state.properties.density = Math.round(state.properties.density);
-
+		geojson = L.geoJson(newStatesData, {
+		    style: style,
+		    onEachFeature: onEachFeature
+		}).addTo(map);
+		info.update();
+    }
+    //Otherwise, filter for desired event type
+    //Scale/legend IS GOING TO BE MESSED UP
+    else{
+        newStatesData = statesData;
+    	newStatesData.features.forEach(function(state){
+			state.properties.density = 0;
+			queryData.forEach(function(curState){
+				if (curState.state == state.properties.name.toUpperCase() && curState.type == type){
+						state.properties.density = curState.damage
+				}
 			})
-        	console.log("Event Filtered Events",newStatesData);
-            //Remove old layer, make a new one, add the new one
-            map.removeLayer(geojson);
-			geojson = L.geoJson(newStatesData, {
-			    style: style,
-			    onEachFeature: onEachFeature
-			}).addTo(map);
-			info.update();
-        }
+			state.properties.density = Math.round(state.properties.density);
 
-    })
+		})
+    	console.log("Event Filtered Events",newStatesData);
+        //Remove old layer, make a new one, add the new one
+        map.removeLayer(geojson);
+		geojson = L.geoJson(newStatesData, {
+		    style: style,
+		    onEachFeature: onEachFeature
+		}).addTo(map);
+		info.update();
+    }
+}
 
+// Uppdates map and charts when event type changes
+$('#select_event').on('click',function(d,e){
+	updateMap();
+})
+
+
+
+function yearSelect(newQueryData){
+	//console.log(newQueryData);
+
+	queryData = newQueryData;
+	//console.log(queryData);
+
+	updateMap();
+}
 
 
 legend.addTo(map);
@@ -192,4 +207,107 @@ geojson = L.geoJson(newStatesData, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
+
+
+
+
+//Slider for year select
+
+
+var margin = {top: 50, right: 100, bottom: 50, left: 225},
+    width = 1250 - margin.left - margin.right,
+    height = 250 - margin.top - margin.bottom-125;
+
+var timeScale = d3.scale.linear()
+  .domain([1950, 2015])
+  .range([0, width])
+  .clamp(true);
+
+//initial brush
+var startValue = 2000;
+startingValue = 2000;
+
+var endValue = 2015;
+endingValue = 2015;
+
+
+
+var y = d3.random.normal(height / 2, height / 2);
+
+var brush = d3.svg.brush()
+    .x(timeScale)
+    .extent([startingValue, endingValue])
+   .on("brushstart", brushstart)
+    .on("brush", brushmove)
+    .on("brushend", brushend);
+
+var arc = d3.svg.arc()
+    .outerRadius(height / 2)
+    .startAngle(0)
+    .endAngle(function(d, i) { return i ? -Math.PI : Math.PI; });
+
+var svg = d3.select("#sliderDiv").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.svg.axis().scale(timeScale).orient("bottom").tickSize(5));
+
+// var circle = svg.append("g").selectAll("text")
+//     .data(data)
+//     .enter().append("text").text("working");
+    
+ 
+
+var brushg = svg.append("g")
+    .attr("class", "brush")
+    .call(brush);
+
+brushg.selectAll(".resize").append("path")
+    .attr("transform", "translate(0," +  height / 2 + ")")
+    .attr("d", arc);
+
+brushg.selectAll("rect")
+    .attr("height", height);
+
+brushstart();
+brushmove();
+
+
+
+function brushstart() {
+  svg.classed("selecting", true);
+}
+
+function brushmove() {
+
+  //circle.classed("selected", function(d) { return s[0] <= d && d <= s[1]; });
+}
+
+function brushend() {
+	var s = brush.extent();
+  	console.log(s);
+
+	if(Math.round(s[1]) - Math.round(s[0]) > 15 ){
+		brush.extent([Math.round(s[1]),Math.round(s[1]-15)]) (d3.select(this));
+	}
+	else{
+		brush.extent([Math.round(s[1]),Math.round(s[1]-15)])(d3.select(this));
+	}
+	s = brush.extent();
+    document.getElementById("year_display").innerHTML = "Year(s) displayed: " + Math.round(s[1]) + "-" + Math.round(s[0]);
+
+    clorMapParams.startYear = Math.round(s[1]);
+    clorMapParams.endYear = Math.round(s[0]);
+    clorQuery(clorMapParams,yearSelect);
+
+	svg.classed("selecting", !d3.event.target.empty());
+}
+
+
 }

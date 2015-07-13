@@ -6,10 +6,18 @@
     }
         #map{
         width:100%;
-        height:100%;
+        height:90%;
         z-index:2002;
     }
+    #sliderDiv{
+        position:absolute;
+        width:95%:
+        height:15%
+        bottom:10px;
+        background:white;
+        text-align:center;
 
+    }
         .info {
             padding: 6px 8px;
             font: 14px/16px Arial, Helvetica, sans-serif;
@@ -37,8 +45,34 @@
         }
             #sidebar{
         width:320px;
-        height:200px;
+        height:150px;
     }
+
+    .axis {
+  fill: gray;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.axis .halo {
+  stroke: gray;
+  stroke-width: 4px;
+  stroke-linecap: round;
+}
+
+.slider .handle path {
+  stroke: white;
+  stroke-width: 3px;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.slider .handle text {
+  fill: white;
+  text-align: center;
+  font-size: 18px;
+}
 </style>
 
 <body>
@@ -58,7 +92,14 @@
                 <option value="Tornado">Tornado</option>
             </select>
         </div>
+        <br>
+        <div id="year_display">
+            Year(s) displayed: 2000-2015
+        </div>
     </div>
     <div id="map">
+        </div>
+        <div id="sliderDiv">
     </div>
+
 </body>
