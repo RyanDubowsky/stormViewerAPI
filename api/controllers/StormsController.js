@@ -146,6 +146,46 @@ module.exports = {
 
 
 
+	},
+	countyChorMap:function(req,res){
+		var type = req.param('type');
+		var startYear = req.param('startYear');
+		var endYear = req.param('endYear');
+
+
+		var zero = "0.00K"
+		//where type = 
+		//where year > start
+		//where year < end
+
+		//group by state
+		//sum damage_property
+
+
+		var queryBase = 'select "STATE","CZ_FIPS","EVENT_TYPE","DAMAGE_PROPERTY" from stormevents'
+		var queryYear =  ' WHERE "YEAR" >= \''+startYear+'\' AND "YEAR" <= \''+endYear+'\'';
+		var queryType; // May be all types
+		var queryEnd = ' AND "DAMAGE_PROPERTY" IS NOT NULL AND "DAMAGE_PROPERTY" != \''+zero+'\' ORDER BY "YEAR" DESC';
+		var finalQuery;
+
+		//Type is last param. If it is all, simply do not include
+		if(type == "All"){
+			queryType = '';
+		}
+		else{
+			queryType =  ' AND "EVENT_TYPE" = \''+type+'\''
+		}
+
+		//Base + state param + type param + end`
+		finalQuery = queryBase + queryYear + queryType + queryEnd;
+
+		console.log(finalQuery);
+		Storms.query(finalQuery,null,function(err,data){
+			res.json({'state' : data});
+		})
+
+
+
 	}
 
 };

@@ -68,6 +68,13 @@ module.exports.routes = {
     cors:{
       origin:'*'
     }
+  },
+  '/storms/countyChorMap/:type/:startYear/:endYear':{
+    controller: 'StormsController',
+    action:'countyChorMap',
+    cors:{
+      origin:'*'
+    }
   }
 
 

@@ -23,10 +23,7 @@ return d > 100000000000 ? '#800026' :
                   '#FFEDA0';
 }
 
-d3.json("../data/usCounties.json",function(topology){
- var demo = topojson.feature(topology, topology.objects.counties)
-console.log("original states",statesData)
-console.log("new counties",demo);
+
 
 
 //Get the lat/long and density object
@@ -355,5 +352,5 @@ function brushend() {
 	svg.classed("selecting", !d3.event.target.empty());
 }
 
-})
+
 }
