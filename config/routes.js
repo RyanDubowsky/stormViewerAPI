@@ -38,6 +38,8 @@ module.exports.routes = {
   '/storms/bubble': 'StormsController.bubble',
 
   '/storms/choropleth': 'StormsController.choropleth',
+
+  '/storms/countyChoropleth': 'StormsController.countyChoropleth',
   
   '/storms/barChart/:state/:type':{
     controller: 'StormsController',

@@ -12,6 +12,9 @@ module.exports = {
 	choropleth: function(req,res){
 		res.view();
 	},
+	countyChoropleth: function(req,res){
+		res.view();
+	},
 	barChart:function(req,res){
 		var state = req.param('state');
 		var type  = req.param('type');
