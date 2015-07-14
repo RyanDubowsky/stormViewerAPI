@@ -31,12 +31,12 @@ var clorMapParams = {eType:"All",startYear:"2000",endYear:"2015"};
 
 //Syncronous function for drawing and querying the line chart
 function syncClorMap(callback){
-    clorQuery(clorMapParams,callback);
+    countyChorQuery(clorMapParams,callback);
 }
 
 //Actual drawing of the line chart
 function syncClorMapDraw(params){
-    clorDraw(params);
+    countyChorDraw(params);
 }
 
 
