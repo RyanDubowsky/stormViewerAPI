@@ -94,28 +94,20 @@ d3.json(url,function(err,dataFromServer){
                     }
                 })
             })
-            console.log(stateEventSumArray)
-
-
-
-            // stateEventSumArray.forEach(function(stateEvent){
-
-            // 	locationEvents.forEach(function(item){
-            // 		if(item.STATE == stateEvent.state && item.EVENT_TYPE == stateEvent.type){
-            // 			if(!isNaN(item.DAMAGE_PROPERTY)){
-            // 				stateEvent.damage = stateEvent.damage + item.DAMAGE_PROPERTY;
-            // 			}
-            // 		}
-            // 	})
-
-            // })
 
 
 
 
 
-            //console.log("Data in clorMap query", stateEventSumArray)
-        	//callback(stateEventSumArray)
+            //console.log("final data",stateEventSumArray)
+
+
+
+
+
+
+
+        	callback(stateEventSumArray)
         });// end d3.json
     })
 

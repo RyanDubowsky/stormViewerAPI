@@ -19,7 +19,7 @@ sidebar.show();
 
 var data=[]
 
-var clorMapParams = {eType:"All",startYear:"2000",endYear:"2010"};
+var clorMapParams = {eType:"All",startYear:"2000",endYear:"2005"};
 
 
     //Formatting

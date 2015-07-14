@@ -1,7 +1,7 @@
 function countyChorDraw(queryData){
 	var geojson;
 
-	var clorMapParams = {eType:"All",startYear:"2000",endYear:"2015"};
+	var clorMapParams = {eType:"All",startYear:"2000",endYear:"2005"};
 
 
     var damageDensity = d3.scale.sqrt()
@@ -25,9 +25,9 @@ return d > 100000000000 ? '#800026' :
 
 
 
-
+    d3.json("../data/usCounties.json",function(topology){
 //Get the lat/long and density object
-newStatesData = demo;
+newStatesData = topojson.feature(topology, topology.objects.counties);
 
 	
 
@@ -352,5 +352,5 @@ function brushend() {
 	svg.classed("selecting", !d3.event.target.empty());
 }
 
-
+})
 }
