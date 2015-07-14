@@ -30,27 +30,27 @@ var jsFilesToInject = [
   // Load sails.io before everything else
   'js/dependencies/sails.io.js',
   // Dependencies like jQuery, or Angular are brought in here
-  'bower_components/jquery/dist/jquery.js',
-  'bower_components/d3/d3.min.js',
-  'bower_components/leaflet/dist/leaflet.js',
-  'bower_components/leaflet-sidebar/src/L.Control.Sidebar.js',
-  'bower_components/crossfilter/crossfilter.min.js',
-  'bower_components/dcjs/dc.min.js',
-  'bower_components/bootstrap/dist/js/bootstrap.js',
-  'bower_components/colorbrewer/colorbrewer.js',
-  'js/src/mapQuery.js',
-  'js/src/barChartDraw.js',
-  'js/src/barChartQuery.js',
-  'js/src/lineComposite.js',
-  'js/src/lineChartDraw.js',
-  'js/src/lineChartQuery.js',
-  'js/src/mapDraw.js',
-  'data/us-states.js',
-  'data/statesList.js',
-  //'js/src/index.js',
-  'js/src/clorDraw.js',
-  'js/src/clorQuery.js',
-  'js/src/clorIndex.js'
+  // 'bower_components/jquery/dist/jquery.js',
+  // 'bower_components/d3/d3.min.js',
+  // 'bower_components/leaflet/dist/leaflet.js',
+  // 'bower_components/leaflet-sidebar/src/L.Control.Sidebar.js',
+  // 'bower_components/crossfilter/crossfilter.min.js',
+  // 'bower_components/dcjs/dc.min.js',
+  // 'bower_components/bootstrap/dist/js/bootstrap.js',
+  // 'bower_components/colorbrewer/colorbrewer.js',
+  // 'js/src/mapQuery.js',
+  // 'js/src/barChartDraw.js',
+  // 'js/src/barChartQuery.js',
+  // 'js/src/lineComposite.js',
+  // 'js/src/lineChartDraw.js',
+  // 'js/src/lineChartQuery.js',
+  // 'js/src/mapDraw.js',
+  // 'data/us-states.js',
+  // 'data/statesList.js',
+  // //'js/src/index.js',
+  // 'js/src/clorDraw.js',
+  // 'js/src/clorQuery.js'
+  //'js/src/clorIndex.js'
 
 
 

@@ -3,7 +3,7 @@ function mapQuery(params,callback){
 	var mapData; 
 
     var url = "/storms/mapEvents/"+params.state+"/"+params.eType+"/"+params.startYear+"/"+params.endYear;
-
+    var thousandsFormat = d3.format(".3f");
     //Proccesses damage numbers so they can play nice with rest of app
     var damagePopScale = function(damage){
         var realDamage;

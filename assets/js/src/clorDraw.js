@@ -258,7 +258,7 @@ geojson = L.geoJson(newStatesData, {
 //Slider for year select
 
 
-var margin = {top: 0, right: 100, bottom: 90, left: 225},
+var margin = {top: 0, right: 100, bottom: 80, left: 225},
     width = 1250 - margin.left - margin.right,
     height = 250 - margin.top - margin.bottom-150;
 

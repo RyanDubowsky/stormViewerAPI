@@ -3,7 +3,7 @@ function lineChartQuery(params,callback){
 	var locationEvents; //Filtered out null-years
 
     var url = "/storms/lineChart/"+params.state+"/"+params.eType
-
+    var thousandsFormat = d3.format(".3f");
     //Scale to make numbers look normal
     var damagePopScale = function(damage){
         var realDamage;

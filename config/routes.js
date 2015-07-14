@@ -35,9 +35,9 @@ module.exports.routes = {
   '/sails': {
     view: 'homepage'
   },
-  '/': 'StormsController.index',
+  '/storms/bubble': 'StormsController.bubble',
 
-  '/storms/clor': 'StormsController.clorIndex',
+  '/storms/choropleth': 'StormsController.choropleth',
   
   '/storms/barChart/:state/:type':{
     controller: 'StormsController',

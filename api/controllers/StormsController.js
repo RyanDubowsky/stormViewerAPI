@@ -6,10 +6,10 @@
  */
 
 module.exports = {
-	index: function(req,res){
+	bubble: function(req,res){
 		res.view();
 	},
-	clorIndex: function(req,res){
+	choropleth: function(req,res){
 		res.view();
 	},
 	barChart:function(req,res){
