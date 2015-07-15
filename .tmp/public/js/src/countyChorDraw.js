@@ -47,6 +47,12 @@ return d > 100000000000 ? '#800026' :
                     //Default map/data has all event types merged.
                     //Hence no event type check.
     				county.properties.density = +countyDamage.damage;
+
+                    county.properties.id = countyDamage.id;
+                    //console.log(county.properties.id)
+                    if(county.properties.id < 10000){
+                        county.properties.id = "0" + county.properties.id;
+                    }
     		}
     	})
     })
@@ -68,11 +74,12 @@ return d > 100000000000 ? '#800026' :
 
     function stateStyle(feature) {
         return {
-            weight: 2,
-            opacity: 1,
+            weight: 4,
+            opacity: 2,
+            fill:false,
             color: 'black',
-            dashArray: '3',
-            fillOpacity: 0.7
+            clickable:false,
+            fillOpacity: 0
         };
     }
 
@@ -94,6 +101,10 @@ return d > 100000000000 ? '#800026' :
     }
 
     function resetHighlight(e) {
+        var layer = e.target;
+        if (!L.Browser.ie && !L.Browser.opera) {
+            layer.bringToBack();
+        }
         geojson.resetStyle(e.target);
         info.update();
     }
@@ -119,9 +130,9 @@ return d > 100000000000 ? '#800026' :
     };
 
     // method that we will use to update the control based on feature properties passed
-    info.update = function (props) {
+    info.update = function (props) {console.log(props);
         this._div.innerHTML = '<h4>Property Damage Density</h4>' +  (props ?
-            '<b>' + props.properties.id + '</b><br />' + "$" + comma(props.density) + ' Property Damage in USD'
+            '<b>' + countyFipsName[props.id] + '</b><br />' + "$" + comma(props.density) + ' Property Damage in USD'
             : 'Hover over a county');
     };
 
@@ -165,6 +176,10 @@ return d > 100000000000 ? '#800026' :
                             //Default map/data has all event types merged.
                             //Hence no event type check.
                             county.properties.density = +countyDamage.damage;
+                            county.properties.id = countyDamage.id;
+                        if(county.properties.id.length < 5){
+                            county.properties.id = "0" + county.properties.id;
+                        }
                     }
                 })
             })
@@ -185,6 +200,12 @@ return d > 100000000000 ? '#800026' :
     			queryData.forEach(function(countyDamage){
     				if (countyDamage.id == county.id && countyDamage.type == type){
     						county.properties.density = +countyDamage.damage
+                        county.properties.id = countyDamage.id;
+
+                    if(county.properties.id.length < 5){
+                        county.properties.id = "0" + county.properties.id;
+                    }
+
     				}
     			})
 
@@ -268,6 +289,11 @@ return d > 100000000000 ? '#800026' :
     geojson = L.geoJson(newCountyData, {
         style: style,
         onEachFeature: onEachFeature
+    }).addTo(map);
+
+
+    stateGeojson = L.geoJson(statesData, {
+        style: stateStyle
     }).addTo(map);
 
 
