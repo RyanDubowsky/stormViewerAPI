@@ -177,7 +177,7 @@ return d > 100000000000 ? '#800026' :
                             //Hence no event type check.
                             county.properties.density = +countyDamage.damage;
                             county.properties.id = countyDamage.id;
-                        if(county.properties.id.length < 5){
+                        if(county.properties.id < 10000){
                             county.properties.id = "0" + county.properties.id;
                         }
                     }
@@ -205,7 +205,7 @@ return d > 100000000000 ? '#800026' :
     						county.properties.density = +countyDamage.damage
                         county.properties.id = countyDamage.id;
 
-                    if(county.properties.id.length < 5){
+                    if(county.properties.id < 10000){
                         county.properties.id = "0" + county.properties.id;
                     }
 
