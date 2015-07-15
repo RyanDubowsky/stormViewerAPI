@@ -1,7 +1,7 @@
 function countyChorDraw(queryData){
 	var geojson;
 
-	var clorMapParams = {startYear:"2000",endYear:"2000"};
+	var clorMapParams = {startYear:"2000",endYear:"2005"};
 
 
     var damageDensity = d3.scale.sqrt()
@@ -130,7 +130,7 @@ return d > 100000000000 ? '#800026' :
     };
 
     // method that we will use to update the control based on feature properties passed
-    info.update = function (props) {console.log(props);
+    info.update = function (props) {
         this._div.innerHTML = '<h4>Property Damage Density</h4>' +  (props ?
             '<b>' + countyFipsName[props.id] + '</b><br />' + "$" + comma(props.density) + ' Property Damage in USD'
             : 'Hover over a county');
@@ -190,6 +190,9 @@ return d > 100000000000 ? '#800026' :
     		    style: style,
     		    onEachFeature: onEachFeature
     		}).addTo(map);
+            if (!L.Browser.ie && !L.Browser.opera) {
+                geojson.bringToBack();
+            }
     		info.update();
         }
         //Otherwise, filter for desired event type
@@ -217,6 +220,9 @@ return d > 100000000000 ? '#800026' :
     		    style: style,
     		    onEachFeature: onEachFeature
     		}).addTo(map);
+            if (!L.Browser.ie && !L.Browser.opera) {
+                geojson.bringToBack();
+            }
     		info.update();
         }
     }
@@ -247,9 +253,9 @@ return d > 100000000000 ? '#800026' :
     		//console.log("start/end year is in wrong order")
         	document.getElementById("error").innerHTML = "Start Year is after End Year";
     	}
-    	else if(endYear-startYear > 10){
+    	else if(endYear-startYear > 2){
     		//console.log("year range too big")
-        	document.getElementById("error").innerHTML = "Year Range greater than 10";
+        	document.getElementById("error").innerHTML = "Year Range greater than 2";
     	}
     	else{
     		//console.log("no errors")
@@ -315,8 +321,8 @@ return d > 100000000000 ? '#800026' :
     var startValue = 2000;
     startingValue = 2000;
 
-    var endValue = 2000;
-    endingValue = 2000;
+    var endValue = 2002;
+    endingValue = 2002;
 
 
 
@@ -374,8 +380,8 @@ return d > 100000000000 ? '#800026' :
     	var s = brush.extent();
       	//console.log(s);
 
-    	if(Math.round(s[1]) - Math.round(s[0]) > 10 ){
-    		brush.extent([Math.round(s[1]),Math.round(s[1]-10)]) (d3.select(this));
+    	if(Math.round(s[1]) - Math.round(s[0]) > 2 ){
+    		brush.extent([Math.round(s[1]),Math.round(s[1]-2)]) (d3.select(this));
     	}
     	else{
     		brush.extent([Math.round(s[1]),Math.round(s[0])])(d3.select(this));

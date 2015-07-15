@@ -19,7 +19,7 @@ sidebar.show();
 
 var data=[]
 
-var clorMapParams = {startYear:"2000",endYear:"2000"};
+var clorMapParams = {startYear:"2000",endYear:"2002"};
 
 
     //Formatting
