@@ -1,9 +1,9 @@
 function countyChorQuery(params,callback){
 
-var url = "/storms/countyChorMap/"+params.eType+"/"+params.startYear+"/"+params.endYear;
+var url = "/storms/countyChorMap/"+params.startYear+"/"+params.endYear;
 console.log("URL in clorQuery",url);
 
-eventTypeArray=["Hail","Thunderstorm Wind","Flood","Flash Flood","Lightning","Heavy Rain","Tornado"];
+eventTypeArray=["Hail","Thunderstorm Wind","Flood","Flash Flood","Lightning","Heavy Rain","Tornado","All"];
 
 //Scale to make numbers look normal
 var damagePopScale = function(damage){
@@ -47,7 +47,9 @@ d3.json(url,function(err,dataFromServer){
 
 
         demo.features.forEach(function(item){
-                    stateEventSumArray.push({id:item.id,damage:0});               
+                eventTypeArray.forEach(function(eType){
+                    stateEventSumArray.push({id:item.id,type:eType,damage:0});               
+                })
         })
 
 
@@ -85,9 +87,14 @@ d3.json(url,function(err,dataFromServer){
 
             locationEvents.forEach(function(event){
                 stateEventSumArray.forEach(function(stateCountyEvent){
-                    if(event.STATECOUNTY == stateCountyEvent.id){
+                    if(event.STATECOUNTY == stateCountyEvent.id && event.EVENT_TYPE == stateCountyEvent.type){
                         if(!isNaN(event.DAMAGE_PROPERTY)){
-                            stateCountyEvent.damage = event.DAMAGE_PROPERTY + stateCountyEvent.damage
+                            stateCountyEvent.damage = +event.DAMAGE_PROPERTY
+                        }
+                    }
+                    if(event.STATECOUNTY == stateCountyEvent.id && stateCountyEvent.type == "All"){
+                        if(!isNaN(event.DAMAGE_PROPERTY)){
+                            stateCountyEvent.damage = stateCountyEvent.damage + +event.DAMAGE_PROPERTY
                         }
                     }
                 })

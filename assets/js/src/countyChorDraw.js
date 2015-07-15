@@ -1,7 +1,7 @@
 function countyChorDraw(queryData){
 	var geojson;
 
-	var clorMapParams = {eType:"All",startYear:"2000",endYear:"2005"};
+	var clorMapParams = {startYear:"2000",endYear:"2000"};
 
 
     var damageDensity = d3.scale.sqrt()
@@ -34,24 +34,24 @@ return d > 100000000000 ? '#800026' :
     //Get the lat/long and density object
     newCountyData = topojson.feature(topology, topology.objects.counties);
 
-	//Now that we have the lat long, we can add the "density" property to each row of it. 
+    //Now that we have the lat long, we can add the "density" property to each row of it. 
     //This is essentially merging the two jsons
     //Can probably use some cool JS feature like map or project or something, but I'm bad 
 
-    // var filteredEvents;
 
 
     newCountyData.features.forEach(function(county){
     	county.properties.density = 0;
     	queryData.forEach(function(countyDamage){
-    		if (countyDamage.id == county.id){
-    				county.properties.density = +countyDamage.damage
+    		if (countyDamage.id == county.id && countyDamage.type == "All"){
+                    //Default map/data has all event types merged.
+                    //Hence no event type check.
+    				county.properties.density = +countyDamage.damage;
     		}
     	})
     })
 
-
-    console.log("density + lat long",newCountyData);
+    //console.log("density + lat long",newCountyData);
 
 
 
@@ -61,6 +61,16 @@ return d > 100000000000 ? '#800026' :
             weight: 2,
             opacity: 1,
             color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
+    function stateStyle(feature) {
+        return {
+            weight: 2,
+            opacity: 1,
+            color: 'black',
             dashArray: '3',
             fillOpacity: 0.7
         };
@@ -111,8 +121,8 @@ return d > 100000000000 ? '#800026' :
     // method that we will use to update the control based on feature properties passed
     info.update = function (props) {
         this._div.innerHTML = '<h4>Property Damage Density</h4>' +  (props ?
-            '<b>' + props.name + '</b><br />' + "$" + comma(props.density) + ' Property Damage in USD'
-            : 'Hover over a state');
+            '<b>' + props.properties.id + '</b><br />' + "$" + comma(props.density) + ' Property Damage in USD'
+            : 'Hover over a county');
     };
 
     var legend = L.control({position: 'bottomright'});
@@ -148,19 +158,20 @@ return d > 100000000000 ? '#800026' :
 
             map.removeLayer(geojson);
 
-    		newStatesData.features.forEach(function(state){
-    			state.properties.density = 0;
-    			queryData.forEach(function(curState){
-    				if (curState.state == state.properties.name.toUpperCase()){
-    						state.properties.density = state.properties.density + curState.damage
-    				}
-    			})
-    			state.properties.density = Math.round(state.properties.density);
-    		})
+            newCountyData.features.forEach(function(county){
+                county.properties.density = 0;
+                queryData.forEach(function(countyDamage){
+                    if (countyDamage.id == county.id && countyDamage.type == "All"){
+                            //Default map/data has all event types merged.
+                            //Hence no event type check.
+                            county.properties.density = +countyDamage.damage;
+                    }
+                })
+            })
 
-            console.log("Original all events per state data",newStatesData)
+            //console.log("Original all events per state data",newCountyData)
 
-    		geojson = L.geoJson(newStatesData, {
+    		geojson = L.geoJson(newCountyData, {
     		    style: style,
     		    onEachFeature: onEachFeature
     		}).addTo(map);
@@ -169,21 +180,19 @@ return d > 100000000000 ? '#800026' :
         //Otherwise, filter for desired event type
         //Scale/legend IS GOING TO BE MESSED UP
         else{
-            newStatesData = statesData;
-        	newStatesData.features.forEach(function(state){
-    			state.properties.density = 0;
-    			queryData.forEach(function(curState){
-    				if (curState.state == state.properties.name.toUpperCase() && curState.type == type){
-    						state.properties.density = curState.damage
+        	newCountyData.features.forEach(function(county){
+    			county.properties.density = 0;
+    			queryData.forEach(function(countyDamage){
+    				if (countyDamage.id == county.id && countyDamage.type == type){
+    						county.properties.density = +countyDamage.damage
     				}
     			})
-    			state.properties.density = Math.round(state.properties.density);
 
     		})
-        	console.log("Event Filtered Events",newStatesData);
+        	//console.log("Event Filtered Events",newCountyData);
             //Remove old layer, make a new one, add the new one
             map.removeLayer(geojson);
-    		geojson = L.geoJson(newStatesData, {
+    		geojson = L.geoJson(newCountyData, {
     		    style: style,
     		    onEachFeature: onEachFeature
     		}).addTo(map);
@@ -198,31 +207,31 @@ return d > 100000000000 ? '#800026' :
 
 
     $('#yearButton').on('click',function(d,e){
-    	console.log("onyong")
+    	//console.log("onyong")
 
     	var startYear = +$('#startYear').val()
     	var endYear = +$('#endYear').val()
 
-    	console.log(startYear,endYear);
+    	//console.log(startYear,endYear);
 
     	if(startYear < 1950 || startYear > 2014){
-    		console.log("start year eror")
+    		//console.log("start year eror")
         	document.getElementById("error").innerHTML = "Start Year out of Bounds";
     	}
     	else if(endYear < 1950 || startYear > 2014){
-    		console.log("end year eror")
+    		//console.log("end year eror")
         	document.getElementById("error").innerHTML = "End Year out of Bounds";
     	}
     	else if(startYear > endYear){
-    		console.log("start/end year is in wrong order")
+    		//console.log("start/end year is in wrong order")
         	document.getElementById("error").innerHTML = "Start Year is after End Year";
     	}
-    	else if(endYear-startYear > 15){
-    		console.log("year range too big")
-        	document.getElementById("error").innerHTML = "Year Range greater than 15";
+    	else if(endYear-startYear > 10){
+    		//console.log("year range too big")
+        	document.getElementById("error").innerHTML = "Year Range greater than 10";
     	}
     	else{
-    		console.log("no errors")
+    		//console.log("no errors")
         	document.getElementById("error").innerHTML = " ";
 
     		brush.extent([startYear,endYear]);
@@ -231,7 +240,7 @@ return d > 100000000000 ? '#800026' :
 
     		clorMapParams.startYear = startYear;
     		clorMapParams.endYear = endYear;
-    		clorQuery(clorMapParams,yearSelect);
+    		countyChorQuery(clorMapParams,yearSelect);
     }
 
 
@@ -280,8 +289,8 @@ return d > 100000000000 ? '#800026' :
     var startValue = 2000;
     startingValue = 2000;
 
-    var endValue = 2015;
-    endingValue = 2015;
+    var endValue = 2000;
+    endingValue = 2000;
 
 
 
@@ -337,10 +346,10 @@ return d > 100000000000 ? '#800026' :
 
     function brushend() {
     	var s = brush.extent();
-      	console.log(s);
+      	//console.log(s);
 
-    	if(Math.round(s[1]) - Math.round(s[0]) > 15 ){
-    		brush.extent([Math.round(s[1]),Math.round(s[1]-15)]) (d3.select(this));
+    	if(Math.round(s[1]) - Math.round(s[0]) > 10 ){
+    		brush.extent([Math.round(s[1]),Math.round(s[1]-10)]) (d3.select(this));
     	}
     	else{
     		brush.extent([Math.round(s[1]),Math.round(s[0])])(d3.select(this));
@@ -353,10 +362,11 @@ return d > 100000000000 ? '#800026' :
 
         clorMapParams.startYear = Math.round(s[1]);
         clorMapParams.endYear = Math.round(s[0]);
-        clorQuery(clorMapParams,yearSelect);
+        countyChorQuery(clorMapParams,yearSelect);
 
     	svg.classed("selecting", !d3.event.target.empty());
     }
 
 })
+
 }

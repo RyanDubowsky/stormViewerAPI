@@ -19,7 +19,7 @@ sidebar.show();
 
 var data=[]
 
-var clorMapParams = {eType:"All",startYear:"2000",endYear:"2010"};
+var clorMapParams = {startYear:"2000",endYear:"2000"};
 
 
     //Formatting
@@ -38,7 +38,6 @@ function syncClorMap(callback){
 function syncClorMapDraw(params){
     countyChorDraw(params);
 }
-
 
 
 syncClorMap(syncClorMapDraw);

@@ -69,7 +69,7 @@ module.exports.routes = {
       origin:'*'
     }
   },
-  '/storms/countyChorMap/:type/:startYear/:endYear':{
+  '/storms/countyChorMap/:startYear/:endYear':{
     controller: 'StormsController',
     action:'countyChorMap',
     cors:{

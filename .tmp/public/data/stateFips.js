@@ -9,7 +9,7 @@ var stateFips = {
     "DELAWARE":"10",
     "DISTRICT OF COLUMBIA":"11",
     "FLORIDA":"12",
-    "GEOGIA":"13",
+    "GEORGIA":"13",
     "HAWAII":"15",
     "IDAHO":"16",
     "ILLINOIS":"17",
