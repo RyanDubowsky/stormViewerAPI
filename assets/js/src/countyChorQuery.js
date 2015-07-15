@@ -47,9 +47,7 @@ d3.json(url,function(err,dataFromServer){
 
 
         demo.features.forEach(function(item){
-                eventTypeArray.forEach(function(eType){
-                    stateEventSumArray.push({id:item.id,type:eType,damage:0});               
-                })
+                    stateEventSumArray.push({id:item.id,damage:0});               
         })
 
 
@@ -87,9 +85,9 @@ d3.json(url,function(err,dataFromServer){
 
             locationEvents.forEach(function(event){
                 stateEventSumArray.forEach(function(stateCountyEvent){
-                    if(event.STATECOUNTY == stateCountyEvent.id && event.EVENT_TYPE == stateCountyEvent.type){
+                    if(event.STATECOUNTY == stateCountyEvent.id){
                         if(!isNaN(event.DAMAGE_PROPERTY)){
-                            stateCountyEvent.damage = event.DAMAGE_PROPERTY
+                            stateCountyEvent.damage = event.DAMAGE_PROPERTY + stateCountyEvent.damage
                         }
                     }
                 })
