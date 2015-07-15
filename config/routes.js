@@ -32,14 +32,12 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/sails': {
-    view: 'homepage'
-  },
-  '/storms/bubble': 'StormsController.bubble',
+ 
+  '/': 'StormsController.bubble',
 
-  '/storms/choropleth': 'StormsController.choropleth',
+  '/choropleth': 'StormsController.choropleth',
 
-  '/storms/countyChoropleth': 'StormsController.countyChoropleth',
+  '/countyChoropleth': 'StormsController.countyChoropleth',
   
   '/storms/barChart/:state/:type':{
     controller: 'StormsController',
