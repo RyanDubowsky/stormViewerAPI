@@ -18,7 +18,7 @@ map.addControl(sidebar);
 sidebar.show();
 
 var data=[]
-
+console.time("first");
 var clorMapParams = {startYear:"2000",endYear:"2002"};
 
 
@@ -38,6 +38,6 @@ function syncClorMap(callback){
 function syncClorMapDraw(params){
     countyChorDraw(params);
 }
+console.timeEnd("first");
 
-
-syncClorMap(syncClorMapDraw);
+//syncClorMap(syncClorMapDraw);
