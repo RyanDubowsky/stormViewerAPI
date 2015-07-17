@@ -1,0 +1,147 @@
+<script src='/bower_components/jquery/dist/jquery.js'></script>
+<script src='/bower_components/d3/d3.min.js'></script>
+<script src='/bower_components/leaflet/dist/leaflet.js'></script>
+<script src='/bower_components/leaflet-sidebar/src/L.Control.Sidebar.js'></script>
+<script src='/bower_components/crossfilter/crossfilter.min.js'></script>
+<script src='/bower_components/dc.js/dc.min.js'></script>
+<script src='/bower_components/bootstrap/dist/js/bootstrap.js'></script>
+<script src='/bower_components/colorbrewer/colorbrewer.js'></script>
+<script src='/bower_components/topojson/topojson.js'></script>
+
+<style>
+    html,body{
+        width:100%;
+        height:100%;
+        margin:0;
+    }
+    #map{
+        position:absolute;
+        top:0;
+        width:100%;
+        height:80%;
+        z-index:2002;
+    }
+    #sliderDiv{
+        position:absolute;
+        bottom:0;
+        width:95%;
+        height:22%;
+        background:white;
+        text-align:center;
+        z-index:2003;
+    }
+    .info {
+        padding: 6px 8px;
+        font: 14px/16px Arial, Helvetica, sans-serif;
+        background: white;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+    }
+    .info h4 {
+        margin: 0 0 5px;
+        color: #777;
+    }
+.leaflet-sidebar{
+    width:320px;
+    height:150px;
+}
+    .legend {
+        text-align: left;
+        line-height: 18px;
+        color: #555;
+    }
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+    #sidebar{
+    width:320px;
+    height:150px;
+    }
+
+    .axis {
+        fill: gray;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    .axis .halo {
+      stroke: gray;
+      stroke-width: 4px;
+      stroke-linecap: round;
+    }
+
+    .slider .handle path {
+      stroke: white;
+      stroke-width: 3px;
+      stroke-linecap: round;
+      pointer-events: none;
+    }
+
+    .slider .handle text {
+      fill: white;
+      text-align: center;
+      font-size: 18px;
+    }
+    #yearInput{
+    position:absolute;
+    top:0;
+    }
+</style>
+
+<body>
+<script type="text/javascript" src=""../data/us-states.js""></script>
+    <div id="sidebar">
+        <h2>Storm Events</h2>
+        <div id="controls">
+            <label>Event Type: </label>
+            <select id="select_event">
+                <option value="All" selected>All</option>
+                <option value="Hail">Hail</option>
+                <option value="Thunderstorm Wind">Thunderstorm Wind</option>
+                <option value="Flood">Flood</option>
+                <option value="Flash Flood">Flash Flood</option>
+                <option value="Lightning">Lightning</option>
+                <option value="Heavy Rain">Heavy Rain</option>
+                <option value="Tornado">Tornado</option>
+            </select>
+        </div>
+        <br>
+        <div id="year_display">
+            Year(s) displayed: 2000-2002
+        </div>
+    </div>
+    <div id="map">
+    </div>
+    <div id="sliderDiv">
+    <br>
+    <div id="yearInput" style="float:left ">
+        <h6> Manually input a year range </h6>
+        <p id="error" style="color:red"></p>
+        <br>
+        Start Year: <input type="text" id="startYear"value="2000"></input>
+        <br>
+        <br>
+        End Year: <input type="text" id="endYear"value="2002"></input>
+        <br>
+        <br>
+        <button type="button" id="yearButton"> Submit </button>
+    </div>
+        <h4>Slide to select which years to display</h4>
+        <h6>Note: A maximum of three years (inclusive) can be displayed at once </h6>
+    </div>
+
+</body>
+
+<script src='/js/src/countyChorQuery.js'></script>
+<script src='/js/src/countyChorDraw.js'></script>
+<script src='/data/countyFipsName.js'></script>
+<script src='/data/us-states.js'></script>
+<script src='/data/stateFips.js'></script>
+<script src='/data/statesList.js'></script>
+<script src='/js/src/countyChoropleth.js'></script>

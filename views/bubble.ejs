@@ -1,0 +1,188 @@
+<script src='/bower_components/jquery/dist/jquery.js'></script>
+<script src='/bower_components/d3/d3.min.js'></script>
+<script src='/bower_components/leaflet/dist/leaflet.js'></script>
+<script src='/bower_components/leaflet-sidebar/src/L.Control.Sidebar.js'></script>
+<script src='/bower_components/crossfilter/crossfilter.min.js'></script>
+<script src='/bower_components/dc.js/dc.min.js'></script>
+<script src='/bower_components/bootstrap/dist/js/bootstrap.js'></script>
+<script src='/bower_components/colorbrewer/colorbrewer.js'></script>
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+    html,body{
+    	width:100%;
+    	height:100%;
+        margin:0;
+    }
+    h4{
+        margin:0;
+    }
+    #map{
+    	width:100%;
+    	height:100%;
+    }
+    .storm_event{
+        stroke:#f00;
+        fill:#0cf;
+
+    }
+    .storm_event:hover{
+        cursor:pointer;
+
+    }
+    #tooltip {
+        opacity: 1;
+        background: white;
+        padding: 5px;
+        position: absolute;
+        z-index: 10;
+        visibility: hidden;
+        pointer-events: none;
+    }
+    #charts{
+        position:absolute;
+        width:99%;
+        height:35%;
+        bottom:10px;
+        left:7px;
+        z-index: 2001;
+        background:white;
+        text-align:center;
+    }
+    #tabs{
+        position:relative;
+        width:100%;
+        height:6%;
+        z-index: 2002;
+        background:white;
+        text-align:left;
+    }
+    #sidebar{
+        width:320px;
+        height:200px;
+    }
+
+
+    </style>
+
+  </head>
+  <body>
+    <div id="map">
+        <div id="sidebar">
+            <h1>Storm Events</h1>
+            <div id="controls">
+                <label>Event Type: </label>
+                <select id="select_event">
+                    <option value="All" selected>All</option>
+                    <option value="Hail">Hail</option>
+                    <option value="Thunderstorm Wind">Thunderstorm Wind</option>
+                    <option value="Flood">Flood</option>
+                    <option value="Flash Flood">Flash Flood</option>
+                    <option value="Lightning">Lightning</option>
+                    <option value="Heavy Rain">Heavy Rain</option>
+                    <option value="Tornado">Tornado</option>
+                </select>
+            </div>
+            <br>
+            <Label>State Select: </label>
+                <select id="select_state">
+                    <option value="All">All</option>
+                    <option value="ALABAMA">ALABAMA</option>
+                    <option value="ALASKA">ALASKA</option>
+                    <option value="ARIZONA">ARIZONA</option>
+                    <option value="ARKANSAS">ARKANSAS</option>
+                    <option value="CALIFORNIA">CALIFORNIA</option>
+                    <option value="COLORADO">COLORADO</option>
+                    <option value="CONNECTICUT">CONNECTICUT</option>
+                    <option value="DELAWARE">DELAWARE</option>
+                    <option value="DISTRICT OF COLUMBIA">DISTRICT OF COLUMBIA</option>
+                    <option value="FLORIDA">FLORIDA</option>
+                    <option value="GEORGIA">GEORGIA</option>
+                    <option value="HAWAII">HAWAII</option>
+                    <option value="IDAHO">IDAHO</option>
+                    <option value="ILLINOIS">ILLINOIS</option>
+                    <option value="INDIANA">INDIANA</option>
+                    <option value="IOWA">IOWA</option>
+                    <option value="KANSAS">KANSAS</option>
+                    <option value="KENTUCKY">KENTUCKY</option>
+                    <option value="LOUISIANA">LOUISIANA</option>
+                    <option value="MAINE">MAINE</option>
+                    <option value="MARYLAND">MARYLAND</option>
+                    <option value="MASSACHUSETTS">MASSACHUSETTS</option>
+                    <option value="MICHIGAN">MICHIGAN</option>
+                    <option value="MINNESOTA">MINNESOTA</option>
+                    <option value="MISSISSIPPI">MISSISSIPPI</option>
+                    <option value="MISSOURI">MISSOURI</option>
+                    <option value="MONTANA">MONTANA</option>
+                    <option value="NEBRASKA">NEBRASKA</option>
+                    <option value="NEVADA">NEVADA</option>
+                    <option value="NEW HAMPSHIRE">NEW HAMPSHIRE</option>
+                    <option value="NEW JERSEY">NEW JERSEY</option>
+                    <option value="NEW MEXICO">NEW MEXICO</option>
+                    <option value="NEW YORK" selected = 'true'>NEW YORK</option>
+                    <option value="NORTH CAROLINA">NORTH CAROLINA</option>
+                    <option value="NORTH DAKOTA">NORTH DAKOTA</option>
+                    <option value="OHIO">OHIO</option>
+                    <option value="OKLAHOMA">OKLAHOMA</option>
+                    <option value="OREGON">OREGON</option>
+                    <option value="PENNSYLVANIA">PENNSYLVANIA</option>
+                    <option value="RHODE ISLAND">RHODE ISLAND</option>
+                    <option value="SOUTH CAROLINA">SOUTH CAROLINA</option>
+                    <option value="SOUTH DAKOTA">SOUTH DAKOTA</option>
+                    <option value="TENNESSEE">TENNESSEE</option>
+                    <option value="TEXAS">TEXAS</option>
+                    <option value="UTAH">UTAH</option>
+                    <option value="VERMONT">VERMONT</option>
+                    <option value="VIRGINIA">VIRGINIA</option>
+                    <option value="WASHINGTON">WASHINGTON</option>
+                    <option value="WEST VIRGINIA">WEST VIRGINIA</option>
+                    <option value="WISCONSIN">WISCONSIN</option>
+                    <option value="WYOMING">WYOMING</option>
+                </select>
+                <br>
+                <br>
+                <div id="year_display">
+                    Year(s) displayed: 2010-2013
+                </div>
+        </div>
+        </div>
+    </div>
+    <div id="tooltip">
+    </div>
+        <div id="tabs" class="container">
+        <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#barChart">Total Events per Year</a></li>
+        <li><a data-toggle="tab" href="#lineChart">County Damages</a></li>
+    </ul>
+        </div>
+    <div id="charts" class="tab-content">
+        <div id="barChart" class="tab-pane fade in active">
+            <h4> Reported events per year </h4>
+            <div id="yearChart" style="float:bottom"></div>
+        </div>
+        <div id="lineChart" class="tab-pane fade">
+            <h4> Property damage per year per county </h4>
+            <div id="countyChart" style="float:bottom"></div>
+        </div>
+    </div>
+
+    
+  </body>
+<script src='/js/src/mapQuery.js'></script>
+<script src='/js/src/barChartDraw.js'></script>
+<script src='/js/src/barChartQuery.js'></script>
+<script src='/js/src/lineComposite.js'></script>
+<script src='/js/src/lineChartDraw.js'></script>
+<script src='/js/src/lineChartQuery.js'></script>
+<script src='/js/src/mapDraw.js'></script>
+ 
+<script src='/js/src/index.js'></script>
